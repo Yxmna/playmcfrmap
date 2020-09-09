@@ -19,7 +19,6 @@ function zoom() {
 function load(map_height, map_width) {
   pointswar.innerHTML = "";
   for (var ville in data) {
-    console.log(!isNaN(data[ville]["__2"]));
     if (isNaN(data[ville]["__2"])) {
     } else {
       var div = document.createElement("div");
