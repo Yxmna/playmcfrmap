@@ -1,0 +1,55 @@
+body {
+  padding: 0;
+  margin: 0;
+  height: 100vh;
+  width: 100%;
+  background-color: #24292E;
+  overflow-y: auto;
+}
+
+* {}
+
+#area {
+  width: 100%;
+  height: 100%;
+}
+
+img {
+  user-select: none;
+  width: 100%;
+  height: auto;
+  cursor: zoom-out;
+  transition: all 1s;
+}
+
+.zoom {
+  height: 100%;
+  width: auto;
+  cursor: zoom-in;
+}
+
+.point {
+position: absolute;
+transform: translateY(-100%);
+}
+
+.point div {
+  width: 5px;
+  height: 5px;
+  background-color: greenyellow;
+  top: 100px;
+  left: 100px;
+  border-radius: 50%;
+  border: 1px black solid;
+}
+
+.pointswar {
+  height: 100%;
+  width: 100%;
+}
+
+p {
+  margin: 0;
+padding: 0;
+background-color: aliceblue;
+}
