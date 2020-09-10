@@ -5,6 +5,8 @@ const pointswar = document.getElementById("pointswar");
 var map_height = 938;
 var map_width = 938;
 
+var pmc_size = 6144;
+
 function zoom() {
   if (map.classList.contains("zoom")) {
     map.classList.remove("zoom");
@@ -19,15 +21,14 @@ function zoom() {
 function load(map_height, map_width) {
   pointswar.innerHTML = "";
   for (var ville in data) {
-    if (isNaN(data[ville]["__2"])) {
-    } else {
+    if (isNaN(data[ville]["__2"])) {} else {
       var div = document.createElement("div");
       var point = document.createElement("div");
       var name = document.createElement("p");
       name.innerHTML = data[ville]["__1"]
       div.classList.add("point");
-      div.style.left = (data[ville]["Overworld"] + 6144) / (12288 / map_width) + "px";
-      div.style.top = (data[ville]["__2"] + 6144) / (12288 / map_height) + "px";
+      div.style.left = (data[ville]["Overworld"] + pmc_size) / (pmc_size * 2 / map_width) + "px";
+      div.style.top = (data[ville]["__2"] + pmc_size) / (pmc_size * 2 / map_height) + "px";
       div.appendChild(name);
       div.appendChild(point);
       pointswar.appendChild(div);
