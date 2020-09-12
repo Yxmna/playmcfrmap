@@ -1,29 +1,61 @@
 const map = document.getElementById("map");
 const area = document.getElementById("area");
 const pointswar = document.getElementById("pointswar");
+const info = document.getElementById("info");
 
 var map_height = 938;
 var map_width = 938;
 var pmc_size = 6144;
 
+function hi() {
+  map_height = map.getBoundingClientRect().height;
+  map_width = map.getBoundingClientRect().width;
+  load(map_height, map_width);
+}
+
 function zoom() {
-  if (map.classList.contains("zoom")) {
-    map.classList.remove("zoom");
+  if (map.classList.contains("anti-zoom")) {
+    info.classList.add("none");
+    map.classList.remove("anti-zoom");
   } else {
-    map.classList.add("zoom");
+    info.classList.remove("none");
+    map.classList.add("anti-zoom");
   }
   map_height = map.getBoundingClientRect().height;
   map_width = map.getBoundingClientRect().width;
   load(map_height, map_width);
 }
 
-function show(x) {
+function click(x) {
+
+  info.classList.remove("none");
+  map.classList.add("anti-zoom");
+  map_height = map.getBoundingClientRect().height;
+  map_width = map.getBoundingClientRect().width;
+  load(map_height, map_width);
   for (var div of pointswar.children) {
     div.firstChild.classList.add("void");
-  div.style.zIndex = 0;
+    div.style.zIndex = 0;
   }
   document.getElementById(x).parentElement.firstChild.classList.remove("void");
   document.getElementById(x).parentElement.style.zIndex = 1;
+
+
+
+  document.getElementById("name").innerHTML = data[x].__1;
+  if (data[x].__13 == data[x].__14) {
+    document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].__14;
+  } else {
+    document.getElementById("mf").innerHTML = "Maire: " + data[x].__14 + ", fondateur:  " + data[x].__13;
+  }
+  document.getElementById("arch").innerHTML = "Architecture: " + data[x].Architecture;
+  document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
+
+
+
+
+
+
 }
 
 function load(map_height, map_width) {
@@ -36,7 +68,7 @@ function load(map_height, map_width) {
       var point = document.createElement("div");
       var name = document.createElement("p");
       name.innerHTML = data[ville]["__1"];
-      name.classList.add("void");
+      // name.classList.add("void");
       div.classList.add("point");
       point.title = data[ville]["__1"];
       point.id = ville
@@ -44,7 +76,7 @@ function load(map_height, map_width) {
       div.style.top = (data[ville]["__2"] + pmc_size) / (pmc_size * 2 / map_height) + "px";
 
       point.onclick = async function() {
-        show(this.id);
+        click(this.id);
       }
 
 
