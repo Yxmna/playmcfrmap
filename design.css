@@ -29,18 +29,22 @@ img {
 }
 
 .point {
-position: absolute;
-transform: translateY(-100%);
+  pointer-events: none;
+  position: absolute;
+  transform: translateY(-100%);
 }
 
 .point div {
-  width: 5px;
-  height: 5px;
+  pointer-events: all;
+  cursor: pointer;
+  width: 10px;
+  height: 10px;
   background-color: greenyellow;
   top: 100px;
   left: 100px;
   border-radius: 50%;
-  border: 1px black solid;
+  border: 2px black solid;
+  transform: translate(-50%, 50%);
 }
 
 .pointswar {
@@ -50,6 +54,11 @@ transform: translateY(-100%);
 
 p {
   margin: 0;
-padding: 0;
-background-color: aliceblue;
+  padding: 0;
+  background-color: aliceblue;
+  z-index: 1;
+}
+
+.void {
+  opacity: 0;
 }

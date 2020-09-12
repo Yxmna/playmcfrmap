@@ -4,7 +4,6 @@ const pointswar = document.getElementById("pointswar");
 
 var map_height = 938;
 var map_width = 938;
-
 var pmc_size = 6144;
 
 function zoom() {
@@ -18,17 +17,37 @@ function zoom() {
   load(map_height, map_width);
 }
 
+function show(x) {
+  for (var div of pointswar.children) {
+    div.firstChild.classList.add("void");
+  div.style.zIndex = 0;
+  }
+  document.getElementById(x).parentElement.firstChild.classList.remove("void");
+  document.getElementById(x).parentElement.style.zIndex = 1;
+}
+
 function load(map_height, map_width) {
   pointswar.innerHTML = "";
   for (var ville in data) {
-    if (isNaN(data[ville]["__2"])) {} else {
+    if (isNaN(data[ville]["__2"]) || data[ville]["Caractéristique"] == "Détruite") {
+      //
+    } else {
       var div = document.createElement("div");
       var point = document.createElement("div");
       var name = document.createElement("p");
-      name.innerHTML = data[ville]["__1"]
+      name.innerHTML = data[ville]["__1"];
+      name.classList.add("void");
       div.classList.add("point");
+      point.title = data[ville]["__1"];
+      point.id = ville
       div.style.left = (data[ville]["Overworld"] + pmc_size) / (pmc_size * 2 / map_width) + "px";
       div.style.top = (data[ville]["__2"] + pmc_size) / (pmc_size * 2 / map_height) + "px";
+
+      point.onclick = async function() {
+        show(this.id);
+      }
+
+
       div.appendChild(name);
       div.appendChild(point);
       pointswar.appendChild(div);
@@ -173,15 +192,15 @@ const data = [{
     "Adresse nether": "Sortie 4",
     "__4": "Sud",
     "__5": "Gauche",
-    "Population": 15,
-    "__6": 0,
-    "__7": 0,
-    "__8": 0,
-    "__9": 15,
+    "Population": 13,
+    "__6": 4,
+    "__7": 3,
+    "__8": 1,
+    "__9": 21,
     "Architecture": "Moderne",
     "__10": "Biomiméthique",
-    "Batiments": 0,
-    "__11": 1,
+    "Batiments": 1,
+    "__11": 2,
     "__12": 16,
     "Caractéristique": "Active",
     "__13": "Dakuraito      TheArtist72",
@@ -225,36 +244,6 @@ const data = [{
   },
   {
     "": "⯀",
-    "__1": "Dundwenium",
-    "Overworld": -1256,
-    "__2": 2510,
-    "Nether": -157,
-    "__3": 314,
-    "Adresse nether": "Sortie 5",
-    "__4": "Sud",
-    "__5": "Droite",
-    "Population": 2,
-    "__6": 5,
-    "__7": 1,
-    "__8": 1,
-    "__9": 9,
-    "Architecture": "Antique",
-    "__10": "Ville portuaire",
-    "Batiments": 8,
-    "__11": 0,
-    "__12": 141,
-    "Caractéristique": "Active",
-    "__13": "Daewyn",
-    "__14": "Daewyn",
-    "__15": 2018,
-    "__16": "La démesure Romaine.",
-    "Liens": "Liens",
-    "__17": "Liens",
-    "__18": "Liens",
-    "__19": 1
-  },
-  {
-    "": "⯀",
     "__1": "Atlantis",
     "Overworld": -4904,
     "__2": -2840,
@@ -279,6 +268,36 @@ const data = [{
     "__15": 2019,
     "__16": "..",
     "Liens": "//",
+    "__17": "Liens",
+    "__18": "Liens",
+    "__19": 1
+  },
+  {
+    "": "⯀",
+    "__1": "Dundwenium",
+    "Overworld": -1256,
+    "__2": 2510,
+    "Nether": -157,
+    "__3": 314,
+    "Adresse nether": "Sortie 5",
+    "__4": "Sud",
+    "__5": "Droite",
+    "Population": 2,
+    "__6": 5,
+    "__7": 1,
+    "__8": 1,
+    "__9": 9,
+    "Architecture": "Antique",
+    "__10": "Ville portuaire",
+    "Batiments": 8,
+    "__11": 0,
+    "__12": 141,
+    "Caractéristique": "Active",
+    "__13": "Daewyn",
+    "__14": "Daewyn",
+    "__15": 2018,
+    "__16": "La démesure Romaine.",
+    "Liens": "Liens",
     "__17": "Liens",
     "__18": "Liens",
     "__19": 1
@@ -461,6 +480,36 @@ const data = [{
     "Liens": "//",
     "__17": "//",
     "__18": "Liens",
+    "__19": 1
+  },
+  {
+    "": "⯀",
+    "__1": "BlockCity",
+    "Overworld": "..",
+    "__2": "..",
+    "Nether": "..",
+    "__3": "..",
+    "Adresse nether": "Sortie 6",
+    "__4": "Ouest",
+    "__5": "..",
+    "Population": 1,
+    "__6": 0,
+    "__7": 0,
+    "__8": 0,
+    "__9": 1,
+    "Architecture": "Médiéval",
+    "__10": 1,
+    "Batiments": 1,
+    "__11": 7,
+    "__12": 9,
+    "Caractéristique": "Active",
+    "__13": "BlockAstre",
+    "__14": "BlockAstre",
+    "__15": 2018,
+    "__16": "Possède un colonie sur le continent (la ville est sur une île)",
+    "Liens": "..",
+    "__17": "Liens",
+    "__18": "..",
     "__19": 1
   },
   {
@@ -1425,6 +1474,36 @@ const data = [{
   },
   {
     "": "⯀",
+    "__1": "Xanthos",
+    "Overworld": -1100,
+    "__2": 2900,
+    "Nether": -138,
+    "__3": 363,
+    "Adresse nether": "//",
+    "__4": "//",
+    "__5": "//",
+    "Population": 0,
+    "__6": 4,
+    "__7": "//",
+    "__8": "//",
+    "__9": 4,
+    "Architecture": "..",
+    "__10": "..",
+    "Batiments": "//",
+    "__11": "//",
+    "__12": "//",
+    "Caractéristique": "Détruite",
+    "__13": "Dhemonaq",
+    "__14": "//",
+    "__15": 2015,
+    "__16": "Détruite puis repris par l'inquisition",
+    "Liens": "//",
+    "__17": "//",
+    "__18": "Liens",
+    "__19": 4
+  },
+  {
+    "": "⯀",
     "__1": "Ninou_City",
     "Overworld": -1241,
     "__2": -678,
@@ -1779,36 +1858,6 @@ const data = [{
     "__15": 2016,
     "__16": "..",
     "Liens": "Liens",
-    "__17": "//",
-    "__18": "..",
-    "__19": 6
-  },
-  {
-    "": "⯀",
-    "__1": "Xanthos",
-    "Overworld": "..",
-    "__2": "..",
-    "Nether": "..",
-    "__3": "..",
-    "Adresse nether": "..",
-    "__4": "..",
-    "__5": "..",
-    "Population": "..",
-    "__6": 4,
-    "__7": "..",
-    "__8": "..",
-    "__9": 4,
-    "Architecture": "..",
-    "__10": "..",
-    "Batiments": "..",
-    "__11": "..",
-    "__12": "..",
-    "Caractéristique": "..",
-    "__13": "Dhemonaq",
-    "__14": "..",
-    "__15": 2015,
-    "__16": "..",
-    "Liens": "..",
     "__17": "//",
     "__18": "..",
     "__19": 6
@@ -3101,36 +3150,6 @@ const data = [{
     "Liens": "..",
     "__17": "//",
     "__18": "..",
-    "__19": 6
-  },
-  {
-    "": "⯀",
-    "__1": "Xanthos",
-    "Overworld": -1100,
-    "__2": 2900,
-    "Nether": -138,
-    "__3": 363,
-    "Adresse nether": "..",
-    "__4": "..",
-    "__5": "..",
-    "Population": "..",
-    "__6": "..",
-    "__7": "..",
-    "__8": "..",
-    "__9": 0,
-    "Architecture": "..",
-    "__10": "..",
-    "Batiments": "..",
-    "__11": "..",
-    "__12": "..",
-    "Caractéristique": "..",
-    "__13": "Dhemonaq",
-    "__14": "..",
-    "__15": 2015,
-    "__16": "..",
-    "Liens": "..",
-    "__17": "//",
-    "__18": "Liens",
     "__19": 6
   }
 ]
