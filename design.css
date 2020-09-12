@@ -64,8 +64,9 @@ p {
 #info {
   overflow-y: auto;
   height: 100vh;
-  background-color: gray;
+  background-color: #24292E;
   width: inherit;
+  padding-left: 2%;
 }
 
 .void {
@@ -76,6 +77,9 @@ p {
   display: none;
 }
 
+h1 ,h2 {
+  color: white;
+}
 
 h1 {
   font-size: 4vh;
