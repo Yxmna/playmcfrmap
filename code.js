@@ -7,11 +7,6 @@ var map_height = 938;
 var map_width = 938;
 var pmc_size = 6144;
 
-function hi() {
-  map_height = map.getBoundingClientRect().height;
-  map_width = map.getBoundingClientRect().width;
-  load(map_height, map_width);
-}
 
 function zoom() {
   if (map.classList.contains("anti-zoom")) {
