@@ -8,6 +8,11 @@ var map_width = 938;
 var pmc_size = 6144;
 
 
+fetch("./data.json").then(function (res) {
+  console.log(res);
+});
+
+
 function zoom() {
   if (map.classList.contains("anti-zoom")) {
     info.classList.add("none");
