@@ -2,7 +2,7 @@ const map = document.getElementById("map");
 const area = document.getElementById("area");
 const pointswar = document.getElementById("pointswar");
 const menu = document.getElementById("menu");
-const version = "0.18"
+const version = "0.19"
 
 var data = new Object;
 var map_height = 938;
@@ -46,7 +46,7 @@ function zoom() {
 }
 
 function click(x) {
-  window.open("#info", "_parent"); 
+  window.open("#info", "_parent");
   if (actual_selected == x) {
     console.log(true);
     for (var div of pointswar.children) {
