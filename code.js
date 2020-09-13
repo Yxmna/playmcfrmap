@@ -2,7 +2,7 @@ const map = document.getElementById("map");
 const area = document.getElementById("area");
 const pointswar = document.getElementById("pointswar");
 const menu = document.getElementById("menu");
-const version = "0.17"
+const version = "0.18"
 
 var data = new Object;
 var map_height = 938;

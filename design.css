@@ -114,6 +114,10 @@ p {
   bottom: 0;
 }
 
+#map {
+  background-image: url("./files/map_s1.png")
+}
+
 .void {
   opacity: 0;
 }
