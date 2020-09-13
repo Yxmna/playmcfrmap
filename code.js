@@ -35,6 +35,7 @@ function click(x) {
   document.getElementById(x).parentElement.firstChild.classList.remove("void");
   document.getElementById(x).parentElement.style.zIndex = 1;
 
+  document.getElementById(x).classList.add("selected");
 
 
   document.getElementById("name").innerHTML = data[x].__1;
@@ -45,7 +46,6 @@ function click(x) {
   }
   document.getElementById("arch").innerHTML = "Architecture: " + data[x].Architecture;
   document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
-
 
 
 
