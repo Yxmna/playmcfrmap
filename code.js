@@ -46,6 +46,7 @@ function zoom() {
 }
 
 function click(x) {
+  window.open("#info", "_parent"); 
   if (actual_selected == x) {
     console.log(true);
     for (var div of pointswar.children) {
