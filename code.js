@@ -9,7 +9,7 @@ var pmc_size = 6144;
 
 
 fetch("./data.json").then(function (res) {
-  console.log(res);
+  console.log(res.json());
 });
 
 
