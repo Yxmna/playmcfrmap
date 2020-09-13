@@ -101,12 +101,17 @@ p {
   z-index: 1;
 }
 
-#info {
+#menu {
   overflow-y: auto;
   height: 100vh;
   background-color: #24292E;
   width: inherit;
   padding-left: 2%;
+}
+
+#options {
+  position: absolute;
+  bottom: 0;
 }
 
 .void {
@@ -117,7 +122,7 @@ p {
   display: none;
 }
 
-h1, h2 {
+h1, h2, h3{
   color: white;
 }
 
@@ -127,4 +132,12 @@ h1 {
 
 h2 {
   font-size: 3vh;
+}
+h3 {
+  font-size: 2vh;
+}
+
+span {
+  cursor: pointer;
+  color: cornflowerblue;
 }

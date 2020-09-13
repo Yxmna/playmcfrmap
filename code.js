@@ -1,7 +1,8 @@
 const map = document.getElementById("map");
 const area = document.getElementById("area");
 const pointswar = document.getElementById("pointswar");
-const info = document.getElementById("info");
+const menu = document.getElementById("menu");
+const version = "0.17"
 
 var data = new Object;
 var map_height = 938;
@@ -9,6 +10,7 @@ var map_width = 938;
 var pmc_size = 6144;
 var actual_selected = "";
 
+console.log(version);
 
 fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
   return response.json();
@@ -18,12 +20,24 @@ fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
 });
 
 
+function mapType(x) {
+  switch (x) {
+    case 0:
+      map.src = "./files/map1.png";
+      break;
+    case 1:
+      map.src = "./files/map_s1.png";
+      break;
+  }
+}
+
 function zoom() {
+  actual_selected = "";
   if (map.classList.contains("anti-zoom")) {
-    info.classList.add("none");
+    menu.classList.add("none");
     map.classList.remove("anti-zoom");
   } else {
-    info.classList.remove("none");
+    menu.classList.remove("none");
     map.classList.add("anti-zoom");
   }
   map_height = map.getBoundingClientRect().height;
@@ -32,8 +46,6 @@ function zoom() {
 }
 
 function click(x) {
-  console.log(actual_selected);
-  console.log(x);
   if (actual_selected == x) {
     console.log(true);
     for (var div of pointswar.children) {
@@ -47,7 +59,7 @@ function click(x) {
     document.getElementById("way").innerHTML = "Chemin du nether"
     return;
   }
-  info.classList.remove("none");
+  menu.classList.remove("none");
   map.classList.add("anti-zoom");
   map_height = map.getBoundingClientRect().height;
   map_width = map.getBoundingClientRect().width;
