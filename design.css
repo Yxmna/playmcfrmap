@@ -31,26 +31,31 @@ body {
 }
 
 #area {
-  width: 100%;
-  height: 100%;
+  width: 100vh;
+  height: 100vh;
+  cursor: zoom-in;
 }
 
 img {
   user-select: none;
   width: 100%;
   height: auto;
-  cursor: zoom-out;
   transition: all 1s;
 }
 
-.anti-zoom {
-  height: 100%;
-  width: auto;
-  cursor: zoom-in;
+#area.zoom {
+  height: 100vw;
+  width: 100vw;
+  cursor: zoom-out;
+}
+
+#pointswar {
+  position: absolute;
+  top: 0;
 }
 
 .point {
-  /* pointer-events: none; */
+  pointer-events: none;
   position: absolute;
   transform: translateY(-100%);
 }
@@ -106,6 +111,7 @@ p {
   background-color: #24292E;
   width: inherit;
   padding-left: 2%;
+  width: auto;
 }
 
 #options {

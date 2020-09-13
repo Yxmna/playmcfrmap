@@ -2,7 +2,7 @@ const map = document.getElementById("map");
 const area = document.getElementById("area");
 const pointswar = document.getElementById("pointswar");
 const menu = document.getElementById("menu");
-const version = "0.19"
+const version = "0.20"
 
 var data = new Object;
 var map_height = 938;
@@ -33,12 +33,12 @@ function mapType(x) {
 
 function zoom() {
   actual_selected = "";
-  if (map.classList.contains("anti-zoom")) {
-    menu.classList.add("none");
-    map.classList.remove("anti-zoom");
-  } else {
+  if (area.classList.contains("zoom")) {
     menu.classList.remove("none");
-    map.classList.add("anti-zoom");
+    area.classList.remove("zoom");
+  } else {
+    area.classList.add("zoom");
+    menu.classList.add("none");
   }
   map_height = map.getBoundingClientRect().height;
   map_width = map.getBoundingClientRect().width;
@@ -46,7 +46,7 @@ function zoom() {
 }
 
 function click(x) {
-  window.open("#info", "_parent");
+  // window.open("#info", "_parent");
   if (actual_selected == x) {
     console.log(true);
     for (var div of pointswar.children) {
@@ -61,7 +61,7 @@ function click(x) {
     return;
   }
   menu.classList.remove("none");
-  map.classList.add("anti-zoom");
+  area.classList.remove("zoom");
   map_height = map.getBoundingClientRect().height;
   map_width = map.getBoundingClientRect().width;
   load(map_height, map_width);
