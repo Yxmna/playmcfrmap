@@ -17,11 +17,6 @@ map_img.src = "./files/map1.png";
 map_img.onload = function() {
   map.src = this.src;
 };
-
-// map.onload = function() {
-//   map_lite.style.zIndex = -1;
-// };
-
 fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
   return response.json();
 }).then(function(obj) {
@@ -43,47 +38,47 @@ function redo() {
 }
 
 function click(x) {
-  area.style.transition = "none";
-  menu.classList.remove("none");
-  area.classList.remove("zoom");
-  map_size = map.getBoundingClientRect().height;
-  load(map_size);
-  if (actual_selected == x) {
+  warpoints.innerHTML = "";
+  if (area.classList.contains("zoom")) {
+    zoom(true);
+    setTimeout(function() {
+      click(x);
+    }, 600);
+  } else {
+    map_size = map.getBoundingClientRect().height;
+    load(map_size);
+    if (actual_selected == x) {
+      for (var div of warpoints.children) {
+        if (div.localName == "p") {
+          div.classList.remove("none");
+        }
+      }
+      actual_selected = "";
+      document.getElementById(x).classList.remove("selected");
+      document.getElementById("name").innerHTML = "Nom"
+      document.getElementById("mf").innerHTML = "Fondateur & Maire"
+      document.getElementById("arch").innerHTML = "Architecture"
+      document.getElementById("way").innerHTML = "Chemin du nether"
+      return;
+    }
     for (var div of warpoints.children) {
       if (div.localName == "p") {
-        div.classList.remove("none");
+        div.classList.add("none");
       }
     }
-    actual_selected = "";
-    document.getElementById(x).classList.remove("selected");
-    document.getElementById("name").innerHTML = "Nom"
-    document.getElementById("mf").innerHTML = "Fondateur & Maire"
-    document.getElementById("arch").innerHTML = "Architecture"
-    document.getElementById("way").innerHTML = "Chemin du nether"
-    return;
-  }
-
-  for (var div of warpoints.children) {
-    if (div.localName == "p") {
-      div.classList.add("none");
-      div.style.zIndex = 0;
+    document.getElementById("name" + x).classList.remove("none");
+    document.getElementById(x).classList.add("selected");
+    document.getElementById("name").innerHTML = data[x].__1;
+    if (data[x].__13 == data[x].__14) {
+      document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].__14;
+    } else {
+      document.getElementById("mf").innerHTML = "Maire: " + data[x].__14 + ", fondateur:  " + data[x].__13;
     }
+    document.getElementById("arch").innerHTML = "Architecture: " + data[x].Architecture;
+    document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
+    document.getElementById("pop").innerHTML = "Population: " + data[x].Population + "/" + data[x].__9;
+    actual_selected = x;
   }
-  document.getElementById("name" + x).classList.remove("none");
-  document.getElementById(x).parentElement.style.zIndex = 1;
-  document.getElementById(x).classList.add("selected");
-  document.getElementById("name").innerHTML = data[x].__1;
-  if (data[x].__13 == data[x].__14) {
-    document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].__14;
-  } else {
-    document.getElementById("mf").innerHTML = "Maire: " + data[x].__14 + ", fondateur:  " + data[x].__13;
-  }
-  document.getElementById("arch").innerHTML = "Architecture: " + data[x].Architecture;
-  document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
-  actual_selected = x;
-  setTimeout(function() {
-    area.style.transition = "all .5s";
-  }, 100);
 }
 
 function mapType(x) {
@@ -97,7 +92,7 @@ function mapType(x) {
   }
 }
 
-function zoom() {
+function zoom(noredo) {
   warpoints.innerHTML = "";
   actual_selected = "";
   if (area.classList.contains("zoom")) {
@@ -107,6 +102,7 @@ function zoom() {
     area.classList.add("zoom");
     menu.classList.add("none");
   }
+  if (noredo) return;
   setTimeout(function() {
     redo();
   }, 600);
@@ -126,6 +122,8 @@ function load(map_size) {
       point.classList.add("point");
       point.title = data[x]["__1"];
       point.id = x;
+      // point.style.height = 15 + "px";
+      // point.style.width = 15 + "px";
       div.style.left = (data[x]["Overworld"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       div.style.top = (data[x]["__2"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       point.onclick = async function() {
@@ -133,19 +131,11 @@ function load(map_size) {
       }
       div.appendChild(point);
       warpoints.appendChild(div);
-
-
       name.id = "name" + x;
       name.classList.add("name");
       name.style.left = (data[x]["Overworld"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       name.style.top = (data[x]["__2"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       warpoints.appendChild(name);
-
-
-
-
-
-
     }
   }
 }

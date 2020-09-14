@@ -7,37 +7,68 @@ body {
   background-color: #24292E;
 }
 
-* {}
+@font-face {
+  font-family: Whitney;
+  font-weight: 300;
+  src: url(files/W_300.woff) format("woff")
+}
+
+@font-face {
+  font-family: Whitney;
+  font-weight: 400;
+  src: url(files/W_400.woff) format("woff")
+}
+
+@font-face {
+  font-family: Whitney;
+  font-weight: 500;
+  src: url(files/W_500.woff) format("woff")
+}
+
+@font-face {
+  font-family: Whitney;
+  font-weight: 600;
+  src: url(files/W_600.woff) format("woff")
+}
+
+@font-face {
+  font-family: Whitney;
+  font-weight: 700;
+  src: url(files/W_700.woff) format("woff")
+}
+
+* {
+  font-family: Whitney;
+}
 
 @keyframes pointing {
   0% {
-    width: 10px;
-    height: 10px;
+    text-transform: scale(1);
     opacity: 1;
   }
 
   50% {
-    width: 50px;
-    height: 50px;
+    transform: scale(2.5);
     opacity: 0;
   }
 
   100% {
-    width: 50px;
-    height: 50px;
+    transform: scale(2.5);
     opacity: 0;
   }
 }
 
 @keyframes appear {
   0% {
-    transform: translateY(-140%) translateX(-50%);
+    transform: translateY(-140%) translateX(-50%) scaleX(0.25);
   }
+
   40% {
-    transform: translateY(-175%) translateX(-50%);
+    transform: translateY(-175%) translateX(-50%) scaleX(1.1);
   }
+
   100% {
-    transform: translateY(-150%) translateX(-50%);
+    transform: translateY(-150%) translateX(-50%) scaleX(1);
   }
 }
 
@@ -45,7 +76,7 @@ body {
   height: 100vh;
   width: 100vh;
   cursor: zoom-in;
-  transition: height .5s;
+  transition: height .4s;
 }
 
 #area.zoom {
@@ -103,7 +134,8 @@ body {
   border-radius: 5px;
   box-shadow: 0 0 10px 5px rgba(0, 0, 0, .25);
   z-index: 1;
-  animation: appear .75s ease;
+  animation: appear .5s ease;
+  font-weight: 400;
 }
 
 .name::before {
@@ -120,16 +152,19 @@ body {
 .point {
   pointer-events: all;
   cursor: pointer;
-  width: 10px;
-  height: 10px;
-  background-color: greenyellow;
+  width: 15px;
+  height: 15px;
+  background-color: rgb(255, 255, 255);
   border-radius: 50%;
-  border: 2px black solid;
+  box-shadow: 0 0 0px 4px rgba(255, 255, 255, .125);
   transform: translate(-50%, 50%);
+  border: rgba(0, 0, 0, .75) 4px solid;
 }
 
 .point.selected {
-  background-color: blue;
+  background-color: tomato;
+  width: 15px;
+  height: 15px;
 }
 
 .point.selected:after {
@@ -137,13 +172,12 @@ body {
   pointer-events: none;
   opacity: 1;
   border: 7px #24292E solid;
-  width: 10px;
-  height: 10px;
+  width: 100%;
+  height: 100%;
   display: block;
-  transform: translate(-50%, -50%);
   border-radius: 50%;
-  top: 5px;
-  left: 5px;
+  top: -7px;
+  left: -7px;
   position: absolute;
   animation: pointing 1.75s infinite ease-out;
 }
