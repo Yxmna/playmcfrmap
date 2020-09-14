@@ -3,7 +3,7 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.27"
+const version = "0.28"
 const map_img = new Image();
 
 var data = new Object;
