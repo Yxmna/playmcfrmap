@@ -1,11 +1,10 @@
 body {
-  padding: 0;
   margin: 0;
-  height: 100vh;
-  width: 100%;
-  background-color: #24292E;
+  padding: 0;
   display: flex;
+  overflow-x: hidden;
   overflow-y: auto;
+  background-color: #24292E;
 }
 
 * {}
@@ -31,36 +30,58 @@ body {
 }
 
 #area {
-  width: 100vh;
   height: 100vh;
+  width: 100vh;
   cursor: zoom-in;
-}
-
-img {
-  user-select: none;
-  width: 100%;
-  height: auto;
-  transition: all 1s;
+  transition: height .5s;
 }
 
 #area.zoom {
-  height: 100vw;
-  width: 100vw;
+  height: 99vw;
   cursor: zoom-out;
 }
 
-#pointswar {
-  position: absolute;
-  top: 0;
+#map, #map_lite {
+  height: 100%;
+  user-select: none;
 }
 
-.point {
+#map_lite {
+  position: absolute;
+  z-index: -1;
+}
+
+#warpoints {}
+
+#menu {
+  height: 100vh;
+  width: -moz-available;
+  padding-left: 30px;
+  color: white;
+}
+
+#options {
+  position: absolute;
+  bottom: 0;
+}
+
+#options span {
+  cursor: pointer;
+  color: cornflowerblue;
+}
+
+.data {
   pointer-events: none;
   position: absolute;
   transform: translateY(-100%);
 }
 
-.point div {
+.data p {
+  margin: 0;
+  background-color: white;
+}
+
+.point {
   pointer-events: all;
   cursor: pointer;
   width: 10px;
@@ -73,11 +94,11 @@ img {
   transform: translate(-50%, 50%);
 }
 
-.point div.selected {
+.point.selected {
   background-color: blue;
 }
 
-.point div.selected:after {
+.point.selected:after {
   content: "";
   pointer-events: none;
   opacity: 1;
@@ -93,31 +114,7 @@ img {
   animation: pointing 1.75s infinite ease-out;
 }
 
-.pointswar {
-  height: 100%;
-  width: 100%;
-}
-
-p {
-  margin: 0;
-  padding: 0;
-  background-color: aliceblue;
-  z-index: 1;
-}
-
-#menu {
-  overflow-y: auto;
-  height: 100vh;
-  background-color: #24292E;
-  width: inherit;
-  padding-left: 2%;
-  width: auto;
-}
-
-#options {
-  position: absolute;
-  bottom: 0;
-}
+h1, h2, h3 {}
 
 .void {
   opacity: 0;
@@ -127,54 +124,23 @@ p {
   display: none;
 }
 
-h1, h2, h3 {
-  color: white;
-}
 
-h1 {
-  font-size: 4vh;
-}
-
-h2 {
-  font-size: 3vh;
-}
-
-h3 {
-  font-size: 2vh;
-}
-
-span {
-  cursor: pointer;
-  color: cornflowerblue;
-}
-
-/*----------------------------------PHONE-----------------------------*/
-@media screen and (max-width: 1269px) {
+@media screen and (max-width: 1100px) {
   body {
     display: block;
   }
-
   #area {
     width: 100%;
     height: auto;
+    cursor: default;
   }
-
-  #map {
-    pointer-events: none;
+  #map, #map_lite {
     width: 100%;
     height: auto;
+    pointer-events: none;
   }
-
-  .point div {
-    pointer-events: all;
-  }
-
   #options {
     margin-top: 50px;
     position: relative;
-  }
-
-  #menu {
-    width: auto;
   }
 }
