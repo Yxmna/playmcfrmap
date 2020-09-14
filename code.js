@@ -1,8 +1,9 @@
 const map = document.getElementById("map");
+const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.21"
+const version = "0.22"
 
 var data = new Object;
 var map_size = 938;
@@ -11,10 +12,22 @@ var actual_selected = "";
 
 console.log("version: " + version);
 
+map.onload = function() {
+  map_lite.style.zIndex = -1;
+};
+
 fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
   return response.json();
 }).then(function(obj) {
   data = obj;
+  data = data.filter(function(a) {
+    if (!isNaN(a["Overworld"])) {
+      return a;
+    }
+  });
+  data.sort(function(a, b) {
+    return a["__2"] - b["__2"]
+  });
   redo();
 });
 
@@ -31,7 +44,9 @@ function click(x) {
   load(map_size);
   if (actual_selected == x) {
     for (var div of warpoints.children) {
-      div.firstChild.classList.remove("void");
+      if (div.localName == "p") {
+        div.classList.remove("none");
+      }
     }
     actual_selected = "";
     document.getElementById(x).classList.remove("selected");
@@ -43,10 +58,12 @@ function click(x) {
   }
 
   for (var div of warpoints.children) {
-    div.firstChild.classList.add("void");
-    div.style.zIndex = 0;
+    if (div.localName == "p") {
+      div.classList.add("none");
+      div.style.zIndex = 0;
+    }
   }
-  document.getElementById(x).parentElement.firstChild.classList.remove("void");
+  document.getElementById("name" + x).classList.remove("none");
   document.getElementById(x).parentElement.style.zIndex = 1;
   document.getElementById(x).classList.add("selected");
   document.getElementById("name").innerHTML = data[x].__1;
@@ -99,19 +116,30 @@ function load(map_size) {
       var point = document.createElement("div");
       var name = document.createElement("p");
       name.innerHTML = data[x]["__1"];
-      // name.classList.add("void");
       div.classList.add("data");
       point.classList.add("point");
       point.title = data[x]["__1"];
-      point.id = x
+      point.id = x;
       div.style.left = (data[x]["Overworld"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       div.style.top = (data[x]["__2"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       point.onclick = async function() {
         click(this.id);
       }
-      div.appendChild(name);
       div.appendChild(point);
       warpoints.appendChild(div);
+
+
+      name.id = "name" + x;
+      name.classList.add("name");
+      name.style.left = (data[x]["Overworld"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
+      name.style.top = (data[x]["__2"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
+      warpoints.appendChild(name);
+
+
+
+
+
+
     }
   }
 }

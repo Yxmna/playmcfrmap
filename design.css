@@ -29,6 +29,18 @@ body {
   }
 }
 
+@keyframes appear {
+  0% {
+    transform: translateY(-125%) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-175%) translateX(-50%);
+  }
+  100% {
+    transform: translateY(-150%) translateX(-50%);
+  }
+}
+
 #area {
   height: 100vh;
   width: 100vh;
@@ -46,9 +58,13 @@ body {
   user-select: none;
 }
 
+#map {
+  z-index: 1;
+}
+
 #map_lite {
+  z-index: 2;
   position: absolute;
-  z-index: -1;
 }
 
 #warpoints {}
@@ -76,9 +92,29 @@ body {
   transform: translateY(-100%);
 }
 
-.data p {
+.name {
+  position: absolute;
   margin: 0;
+  pointer-events: none;
   background-color: white;
+  width: max-content;
+  transform: translate(-50%, -150%);
+  padding: 5px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, .25);
+  z-index: 1;
+  animation: appear .75s ease;
+}
+
+.name::before {
+  content: "";
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-top: 10px solid white;
+  position: absolute;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
 }
 
 .point {
@@ -87,8 +123,6 @@ body {
   width: 10px;
   height: 10px;
   background-color: greenyellow;
-  top: 100px;
-  left: 100px;
   border-radius: 50%;
   border: 2px black solid;
   transform: translate(-50%, 50%);
@@ -116,6 +150,16 @@ body {
 
 h1, h2, h3 {}
 
+h1 {
+  font-size: 5vh;
+}
+
+h2 {
+  font-size: 2vh;
+}
+
+h3 {}
+
 .void {
   opacity: 0;
 }
@@ -124,21 +168,23 @@ h1, h2, h3 {}
   display: none;
 }
 
-
 @media screen and (max-width: 1100px) {
   body {
     display: block;
   }
+
   #area {
     width: 100%;
     height: auto;
     cursor: default;
   }
+
   #map, #map_lite {
     width: 100%;
     height: auto;
     pointer-events: none;
   }
+
   #options {
     margin-top: 50px;
     position: relative;
