@@ -9,36 +9,25 @@ body {
 
 @font-face {
   font-family: Whitney;
-  font-weight: 300;
-  src: url(files/W_300.woff) format("woff")
-}
-
-@font-face {
-  font-family: Whitney;
+  src: url("./files/w400.woff") format("woff");
   font-weight: 400;
-  src: url(files/W_400.woff) format("woff")
 }
 
 @font-face {
   font-family: Whitney;
+  src: url("./files/w500.woff") format("woff");
   font-weight: 500;
-  src: url(files/W_500.woff) format("woff")
 }
 
 @font-face {
   font-family: Whitney;
+  src: url("./files/w600.woff") format("woff");
   font-weight: 600;
-  src: url(files/W_600.woff) format("woff")
-}
-
-@font-face {
-  font-family: Whitney;
-  font-weight: 700;
-  src: url(files/W_700.woff) format("woff")
 }
 
 * {
   font-family: Whitney;
+  font-weight: 400;
 }
 
 @keyframes pointing {
@@ -60,7 +49,7 @@ body {
 
 @keyframes appear {
   0% {
-    transform: translateY(-140%) translateX(-50%) scaleX(0.25);
+    transform: translateY(-140%) translateX(-50%) scaleX(0.5);
   }
 
   40% {
