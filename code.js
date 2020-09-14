@@ -3,9 +3,8 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.25"
+const version = "0.26"
 const map_img = new Image();
-const map_lite_img = new Image();
 
 var data = new Object;
 var map_size = 938;
