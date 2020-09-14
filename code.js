@@ -3,7 +3,7 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.23"
+const version = "0.24"
 const map_img = new Image();
 const map_lite_img = new Image();
 
@@ -14,14 +14,14 @@ var actual_selected = "";
 
 console.log("version: " + version);
 
+map_img.src = "./files/map1.png";
 map_img.onload = function() {
   map.src = this.src;
 };
-map_img.src = "./files/map1.png";
 
-map.onload = function() {
-  map_lite.style.zIndex = -1;
-};
+// map.onload = function() {
+//   map_lite.style.zIndex = -1;
+// };
 
 fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
   return response.json();
