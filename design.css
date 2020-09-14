@@ -31,7 +31,7 @@ body {
 
 @keyframes appear {
   0% {
-    transform: translateY(-125%) translateX(-50%);
+    transform: translateY(-140%) translateX(-50%);
   }
   40% {
     transform: translateY(-175%) translateX(-50%);
@@ -60,11 +60,11 @@ body {
 
 #map {
   z-index: 1;
+  background: url("./files/map_s1.png");
 }
 
 #map_lite {
   z-index: 2;
-  position: absolute;
 }
 
 #warpoints {}
