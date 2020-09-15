@@ -3,13 +3,15 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.29"
+const version = "0.30"
 const map_img = new Image();
 
 var data = new Object;
 var map_size = 938;
 var pmc_size = 6144;
 var actual_selected = "";
+
+
 
 console.log("version: " + version);
 
@@ -31,6 +33,7 @@ fetch("https://yxmna.github.io/playmcfrmap/data.json").then(function(response) {
   });
   redo();
 });
+
 
 function redo() {
   map_size = map.getBoundingClientRect().height;
@@ -68,6 +71,7 @@ function click(x) {
     }
     document.getElementById("name" + x).classList.remove("none");
     document.getElementById(x).classList.add("selected");
+    document.getElementById("name" + x).classList.add("name_selected");
     document.getElementById("name").innerHTML = data[x].__1;
     if (data[x].__13 == data[x].__14) {
       document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].__14;
@@ -77,6 +81,17 @@ function click(x) {
     document.getElementById("arch").innerHTML = "Architecture: " + data[x].Architecture;
     document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
     document.getElementById("pop").innerHTML = "Population: " + data[x].Population + "/" + data[x].__9;
+    if (data[x].Images.startsWith("http")) {
+      console.log(data[x].Images);
+      document.getElementById("background").style.backgroundImage = "url(" + data[x].Images + ")";
+      document.getElementById("background").style.opacity = 1;
+      document.getElementById("background").style.filter = "none";
+    } else {
+      document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
+      console.log(document.getElementById("background").style.backgroundImage);
+      document.getElementById("background").style.opacity = .25;
+      document.getElementById("background").style.filter = "grayscale(1)";
+    }
     actual_selected = x;
   }
 }

@@ -7,10 +7,12 @@
   <title>PMC MAP</title>
 </head>
 
-<body>
+<body onresize="redo()">
+
+<!-- <body> -->
 
 
-  <div id="area" >
+  <div id="area">
     <!-- <img id="map_lite" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false"> -->
     <img id="map" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false">
 
@@ -28,8 +30,12 @@
     <div id="info">
 
 
+      <div id="background">
+      </div>
+
 
       <h1 id="name">Nom</h1>
+      <!-- <h2 id="b"> <span>INFORMATION</span> <span>GALLERIE</span> </h2> -->
       <h2 id="mf">Fondateur & Maire</h2>
       <h2 id="arch">Architecture</h2>
       <h2 id="way">Chemin du nether</h2>

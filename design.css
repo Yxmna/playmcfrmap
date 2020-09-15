@@ -30,6 +30,19 @@ body {
   font-weight: 400;
 }
 
+/* @keyframes waiting {
+  0% {
+    box-shadow: 0 0 0px 0px rgba(255, 255, 255, .125);
+  }
+
+  50% {
+    box-shadow: 0 0 0px 6px rgba(255, 255, 255, .125);
+  }
+
+  100% {
+    box-shadow: 0 0 0px 4px rgba(255, 255, 255, 0);
+  }
+} */
 @keyframes pointing {
   0% {
     text-transform: scale(1);
@@ -91,17 +104,52 @@ body {
 
 #menu {
   height: 100vh;
-  width: -moz-available;
-  padding-left: 30px;
   color: white;
+  width: 100%;
+}
+
+#background {
+  width: 100%;
+  height: 200px;
+  background-image: url("./files/spawnv2.jpg");
+  background-size: cover;
+  background-position: center;
+  filter: grayscale(1);
+  margin-bottom: -80px;
+  z-index: 0;
+  position: relative;
+  opacity: .25;
+  box-shadow: 0 140px 125px -75px rgba(0,0,0,0.75) inset;
+}
+
+#menu h1 {
+  position: relative;
+  z-index: 1;
+  margin: 0 0 50px 30px;
+  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+  font-weight: 600;
+}
+
+#menu h2,#menu  h3,#menu  h4 {
+margin: 0 0 15px 30px;
+}
+
+#menu #b {
+  margin: 0 0 40px 0;
+  display: flex;
+  justify-content: space-evenly;
+  /* padding-left: 25%; */
 }
 
 #options {
   position: absolute;
   bottom: 0;
+  background: #21252B;
+  width: 100%;
+  padding-top: 15px;
 }
 
-#options span {
+span {
   cursor: pointer;
   color: cornflowerblue;
 }
@@ -125,6 +173,11 @@ body {
   z-index: 1;
   animation: appear .5s ease;
   font-weight: 400;
+  font-size: 12px;
+}
+
+.name_selected {
+  font-size: 18px;
 }
 
 .name::before {
@@ -133,7 +186,7 @@ body {
   border-right: 10px solid transparent;
   border-top: 10px solid white;
   position: absolute;
-  top: 24px;
+  top: 85%;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -141,13 +194,14 @@ body {
 .point {
   pointer-events: all;
   cursor: pointer;
-  width: 15px;
-  height: 15px;
+  width: 10px;
+  height: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 50%;
   box-shadow: 0 0 0px 4px rgba(255, 255, 255, .125);
   transform: translate(-50%, 50%);
   border: rgba(0, 0, 0, .75) 4px solid;
+  /* animation: waiting 1s infinite; */
 }
 
 .point.selected {
@@ -171,27 +225,47 @@ body {
   animation: pointing 1.75s infinite ease-out;
 }
 
-h1, h2, h3 {}
+h1, h2, h3 {
+  margin: 0;
+}
 
 h1 {
-  font-size: 5vh;
+  font-size: 50px;
 }
 
 h2 {
-  font-size: 2vh;
+  font-size: 20px;
 }
 
-h3 {}
+h3 {
+  font-size: 15px;
+}
 
 .void {
   opacity: 0;
 }
 
 .none {
-  display: none;
+  display: none !important;
 }
 
-@media screen and (max-width: 1100px) {
+@media screen and (min-width: 1650px) {
+  #menu {
+    display: flex;
+  }
+
+  #info {
+    width: 65%;
+    max-width: 600px;
+  }
+
+  #options {
+    position: relative;
+    width: 35%;
+  }
+}
+
+@media screen and (max-width: 1200px) {
   body {
     display: block;
   }
