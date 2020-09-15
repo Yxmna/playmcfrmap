@@ -3,7 +3,7 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.31"
+const version = "0.32"
 const map_img = new Image();
 
 var data = new Object;
@@ -148,6 +148,7 @@ function load(map_size) {
       name.classList.add("name");
       name.style.left = (data[x]["Overworld"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
       name.style.top = (data[x]["__2"] + pmc_size) / (pmc_size * 2 / map_size) + "px";
+      name.style.animationDuration = (Math.random() * (0.7-0.3)) + 0.4 + "s";
       warpoints.appendChild(name);
     }
   }
