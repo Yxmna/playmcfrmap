@@ -119,19 +119,19 @@ body {
   z-index: 0;
   position: relative;
   opacity: .25;
-  box-shadow: 0 140px 125px -75px rgba(0,0,0,0.75) inset;
+  box-shadow: 0 140px 125px -75px rgba(0, 0, 0, 0.75) inset;
 }
 
 #menu h1 {
   position: relative;
   z-index: 1;
   margin: 0 0 50px 30px;
-  filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+  filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   font-weight: 600;
 }
 
-#menu h2,#menu  h3,#menu  h4 {
-margin: 0 0 15px 30px;
+#menu h2, #menu h3, #menu h4 {
+  margin: 0 0 15px 30px;
 }
 
 #menu #b {
@@ -280,6 +280,10 @@ h3 {
     width: 100%;
     height: auto;
     pointer-events: none;
+  }
+
+  #menu {
+    height: auto;
   }
 
   #options {

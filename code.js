@@ -3,7 +3,7 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.30"
+const version = "0.31"
 const map_img = new Image();
 
 var data = new Object;
@@ -82,13 +82,11 @@ function click(x) {
     document.getElementById("way").innerHTML = data[x].__4 + " " + data[x]["Adresse nether"] + " " + data[x].__5;
     document.getElementById("pop").innerHTML = "Population: " + data[x].Population + "/" + data[x].__9;
     if (data[x].Images.startsWith("http")) {
-      console.log(data[x].Images);
       document.getElementById("background").style.backgroundImage = "url(" + data[x].Images + ")";
       document.getElementById("background").style.opacity = 1;
       document.getElementById("background").style.filter = "none";
     } else {
       document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-      console.log(document.getElementById("background").style.backgroundImage);
       document.getElementById("background").style.opacity = .25;
       document.getElementById("background").style.filter = "grayscale(1)";
     }
