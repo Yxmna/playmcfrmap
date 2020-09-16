@@ -3,7 +3,16 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.34"
+
+const name = document.getElementById("name");
+const desc = document.getElementById("desc");
+const fon = document.getElementById("fon");
+const ma = document.getElementById("ma");
+const arch = document.getElementById("arch");
+const way = document.getElementById("way");
+const pop = document.getElementById("pop");
+
+const version = "0.35"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
@@ -29,7 +38,7 @@ fetch(villes)
   .then(function(obj) {
     data = obj.feed.entry;
     data = data.filter(function(a) {
-      if (!isNaN(a.gsx$overworldx.$t) && a.gsx$villes.$t != "" && a.gsx$villes.$t != "//" && a.gsx$villes.$t != "..") {
+      if (a.gsx$overworldx.$t && a.gsx$villes.$t != "" && a.gsx$villes.$t != "//") {
         return a;
       }
     });
@@ -103,10 +112,26 @@ function click(x) {
       }
       actual_selected = "";
       document.getElementById(x).classList.remove("selected");
-      document.getElementById("name").innerHTML = "Nom"
-      document.getElementById("mf").innerHTML = "Fondateur & Maire"
-      document.getElementById("arch").innerHTML = "Architecture"
-      document.getElementById("way").innerHTML = "Chemin du nether"
+
+
+
+      name.innerHTML = "Les villes"
+
+      desc.classList.add("none");
+      fon.classList.add("none");
+      ma.classList.add("none");
+      arch.classList.add("none");
+      way.classList.add("none");
+      pop.classList.add("none");
+
+
+      document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
+      document.getElementById("background").style.opacity = .25;
+      document.getElementById("background").style.filter = "grayscale(1)";
+
+
+
+
       return;
     }
     for (var div of warpoints.children) {
@@ -117,25 +142,76 @@ function click(x) {
     document.getElementById("name" + x).classList.remove("none");
     document.getElementById(x).classList.add("selected");
     document.getElementById("name" + x).classList.add("name_selected");
-    document.getElementById("name").innerHTML = data[x].gsx$villes.$t;
+    name.innerHTML = data[x].gsx$villes.$t;
+
+
 
     if (data[x].gsx$description != "//" || data[x.gsx$description != ".."]) {
-      document.getElementById("desc").innerHTML = data[x].gsx$description.$t;
+      desc.innerHTML = data[x].gsx$description.$t;
+      desc.classList.remove("none");
     } else {
-      document.getElementById("desc").classList.add("none");
+      desc.classList.add("none");
     }
-    if (data[x].gsx$maire.$t == data[x].gsx$fondateur.$t) {
-      document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].gsx$maire.$t;
+
+
+    if (data[x].gsx$fondateur.$t && data[x].gsx$fondateur.$t != "//") {
+      fon.classList.remove("none");
+      if (data[x].gsx$date.$t && data[x].gsx$date.$t != "//") {
+        fon.innerHTML = "Fondée en " + data[x].gsx$date.$t + " par " + data[x].gsx$fondateur.$t;
+      } else {
+        fon.innerHTML = "Fondée par " + data[x].gsx$fondateur.$t;
+      }
+    } else if (data[x].gsx$date.$t && data[x].gsx$date.$t != "//") {
+      fon.classList.remove("none");
+      fon.innerHTML = "Fondée en " + data[x].gsx$date.$t;
     } else {
-      document.getElementById("mf").innerHTML = "Maire: " + data[x].gsx$maire.$t + ", fondateur:  " + data[x].gsx$fondateur.$t;
+      fon.classList.add("none");
     }
-    if (data[x].gsx$architecturedetail.$t) {
-      document.getElementById("arch").innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t  + ", " + data[x].gsx$architecturedetail.$t;
+
+
+    if (data[x].gsx$architecturegeneral.$t && data[x].gsx$architecturegeneral.$t != "//") {
+      arch.classList.remove("none");
+      if (data[x].gsx$architecturedetail.$t && data[x].gsx$architecturedetail.$t != "//") {
+        arch.innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t + ", " + data[x].gsx$architecturedetail.$t;
+      } else {
+        arch.innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t;
+      }
     } else {
-      document.getElementById("arch").innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t;
+      arch.classList.add("none");
     }
-    document.getElementById("way").innerHTML = data[x].gsx$point.$t + " " + data[x].gsx$sortie.$t + " " + data[x].gsx$direction.$t;
-    document.getElementById("pop").innerHTML = "Population: " + data[x].gsx$populationactuel.$t + "/" + data[x].gsx$populationtotal.$t;
+
+
+    if (data[x].gsx$maire.$t && data[x].gsx$maire.$t != "//") {
+      ma.classList.remove("none");
+      ma.innerHTML = "Maire actuel: " + data[x].gsx$maire.$t;
+    } else {
+      ma.classList.add("none");
+    }
+
+
+    if (data[x].gsx$point.$t && data[x].gsx$point.$t != "//") {
+      way.classList.remove("none");
+      way.innerHTML = "Adresse du nether: " + data[x].gsx$point.$t + " " + data[x].gsx$sortie.$t + " " + data[x].gsx$direction.$t;
+    } else {
+      way.classList.add("none");
+    }
+
+
+    if (data[x].gsx$populationactuel.$t && data[x].gsx$populationactuel.$t != "//") {
+      pop.classList.remove("none");
+      if (data[x].gsx$populationtotal.$t && data[x].gsx$populationtotal.$t != "//") {
+        pop.innerHTML = "Population actuel: " + data[x].gsx$populationactuel.$t + " sur " + data[x].gsx$populationtotal.$t;
+      } else {
+        pop.innerHTML = "Population actuel: " + data[x].gsx$populationactuel.$t;
+      }
+    } else if (data[x].gsx$populationtotal.$t && data[x].gsx$populationtotal.$t != "//") {
+      pop.classList.remove("none");
+      pop.innerHTML = "Population total: " + data[x].gsx$populationtotal.$t;
+    } else {
+      pop.classList.add("none");
+    }
+
+
     if (data[x].gsx$image1.$t.startsWith("http")) {
       document.getElementById("background").style.backgroundImage = "url(" + data[x].gsx$image1.$t + ")";
       document.getElementById("background").style.opacity = 1;
