@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.35"
+const version = "0.36"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
@@ -38,7 +38,7 @@ fetch(villes)
   .then(function(obj) {
     data = obj.feed.entry;
     data = data.filter(function(a) {
-      if (a.gsx$overworldx.$t && a.gsx$villes.$t != "" && a.gsx$villes.$t != "//") {
+      if (a.gsx$overworldx.$t && a.gsx$nom.$t != "" && a.gsx$nom.$t != "//" && a.gsx$nom != " ") {
         return a;
       }
     });
@@ -142,7 +142,7 @@ function click(x) {
     document.getElementById("name" + x).classList.remove("none");
     document.getElementById(x).classList.add("selected");
     document.getElementById("name" + x).classList.add("name_selected");
-    name.innerHTML = data[x].gsx$villes.$t;
+    name.innerHTML = data[x].gsx$nom.$t;
 
 
 
@@ -262,10 +262,10 @@ function load(map_size) {
       var div = document.createElement("div");
       var point = document.createElement("div");
       var name = document.createElement("p");
-      name.innerHTML = data[i].gsx$villes.$t;
+      name.innerHTML = data[i].gsx$nom.$t;
       div.classList.add("data");
       point.classList.add("point");
-      point.title = data[i].gsx$villes.$t;
+      point.title = data[i].gsx$nom.$t;
       point.id = i;
       // point.style.height = 15 + "px";
       // point.style.width = 15 + "px";
