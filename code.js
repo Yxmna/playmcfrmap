@@ -3,7 +3,7 @@ const map_lite = document.getElementById("map_lite");
 const area = document.getElementById("area");
 const menu = document.getElementById("menu");
 const warpoints = document.getElementById("warpoints");
-const version = "0.33"
+const version = "0.34"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
@@ -36,14 +36,40 @@ fetch(villes)
     data.sort(function(a, b) {
       return a.gsx$overworldy.$t - b.gsx$overworldy.$t;
     });
-    console.log(data);
     redo();
   })
 
 
 
 
-
+function changePage(x) {
+  switch (x) {
+    case 0:
+      document.getElementById("option_menu").classList.remove("selected");
+      document.getElementById("gallery_menu").classList.remove("selected");
+      document.getElementById("info_menu").classList.add("selected");
+      document.getElementById("info_page").classList.remove("none");
+      document.getElementById("option_page").classList.add("none");
+      document.getElementById("gallery_page").classList.add("none");
+      break;
+    case 1:
+      document.getElementById("option_menu").classList.remove("selected");
+      document.getElementById("gallery_menu").classList.add("selected");
+      document.getElementById("info_menu").classList.remove("selected");
+      document.getElementById("info_page").classList.add("none");
+      document.getElementById("option_page").classList.add("none");
+      document.getElementById("gallery_page").classList.remove("none");
+      break;
+    case 2:
+      document.getElementById("option_menu").classList.add("selected");
+      document.getElementById("gallery_menu").classList.remove("selected");
+      document.getElementById("info_menu").classList.remove("selected");
+      document.getElementById("info_page").classList.add("none");
+      document.getElementById("option_page").classList.remove("none");
+      document.getElementById("gallery_page").classList.add("none");
+      break;
+  }
+}
 
 
 
@@ -92,12 +118,22 @@ function click(x) {
     document.getElementById(x).classList.add("selected");
     document.getElementById("name" + x).classList.add("name_selected");
     document.getElementById("name").innerHTML = data[x].gsx$villes.$t;
+
+    if (data[x].gsx$description != "//" || data[x.gsx$description != ".."]) {
+      document.getElementById("desc").innerHTML = data[x].gsx$description.$t;
+    } else {
+      document.getElementById("desc").classList.add("none");
+    }
     if (data[x].gsx$maire.$t == data[x].gsx$fondateur.$t) {
       document.getElementById("mf").innerHTML = "Maire et fondateur: " + data[x].gsx$maire.$t;
     } else {
       document.getElementById("mf").innerHTML = "Maire: " + data[x].gsx$maire.$t + ", fondateur:  " + data[x].gsx$fondateur.$t;
     }
-    document.getElementById("arch").innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t;
+    if (data[x].gsx$architecturedetail.$t) {
+      document.getElementById("arch").innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t  + ", " + data[x].gsx$architecturedetail.$t;
+    } else {
+      document.getElementById("arch").innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t;
+    }
     document.getElementById("way").innerHTML = data[x].gsx$point.$t + " " + data[x].gsx$sortie.$t + " " + data[x].gsx$direction.$t;
     document.getElementById("pop").innerHTML = "Population: " + data[x].gsx$populationactuel.$t + "/" + data[x].gsx$populationtotal.$t;
     if (data[x].gsx$image1.$t.startsWith("http")) {

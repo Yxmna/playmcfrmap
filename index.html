@@ -32,21 +32,37 @@
       </div>
 
 
-      <h1 id="name">Nom</h1>
-      <!-- <h2 id="b"> <span>INFORMATION</span> <span>GALLERIE</span> </h2> -->
-      <h2 id="mf">Fondateur & Maire</h2>
-      <h2 id="arch">Architecture</h2>
-      <h2 id="way">Chemin du nether</h2>
-      <h2 id="pop">Population</h2>
+      <h1 id="name">Les villes</h1>
+      <div id="b">
+        <span class="selected" id="info_menu" onclick="changePage(0)">INFORMATION</span> <span id="gallery_menu" onclick="changePage(1)">GALLERIE</span> <span id="option_menu" onclick="changePage(2)">OPTION</span>
+      </div>
+
+      <div id="info_page">
+
+        <h2 id="desc">description</h2>
+        <h2 id="mf">Fondateur & Maire</h2>
+        <h2 id="arch">Architecture</h2>
+        <h2 id="way">Chemin du nether</h2>
+        <h2 id="pop">Population</h2>
+
+      </div>
+
+      <div id="gallery_page">
+
+      </div>
+
+      <div id="option_page">
+        <h3>Type de map: <span onclick="mapType(0)">NORMAL</span> <span onclick="mapType(1)">LITE</span> </h3>
+        <h4>By Yomna</h4>
+
+      </div>
 
     </div>
 
 
     <div id="options">
 
-      <h2>Options</h2>
-      <h3>Type de map: <span onclick="mapType(0)">NORMAL</span> <span onclick="mapType(1)">LITE</span> </h3>
-      <h4>By Yomna</h4>
+      <h2>..</h2>
     </div>
 
   </div>

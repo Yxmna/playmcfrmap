@@ -9,6 +9,12 @@ body {
 
 @font-face {
   font-family: Whitney;
+  src: url("./files/w300.woff") format("woff");
+  font-weight: 300;
+}
+
+@font-face {
+  font-family: Whitney;
   src: url("./files/w400.woff") format("woff");
   font-weight: 400;
 }
@@ -125,7 +131,7 @@ body {
 #menu h1 {
   position: relative;
   z-index: 1;
-  margin: 0 0 50px 30px;
+  margin: 0 0 14px 30px;
   filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
   font-weight: 600;
 }
@@ -134,11 +140,25 @@ body {
   margin: 0 0 15px 30px;
 }
 
-#menu #b {
-  margin: 0 0 40px 0;
+#b {
+  user-select: none;
+  margin: 0 0 20px 0;
   display: flex;
   justify-content: space-evenly;
-  /* padding-left: 25%; */
+  background-color: #21252B;
+}
+
+#b span {
+  padding: 10px 5%;
+  color: white;
+  opacity: .25;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+#b .selected {
+  background-color: #24292E;
+  opacity: 1;
 }
 
 #options {
@@ -230,10 +250,12 @@ h1, h2, h3 {
 }
 
 h1 {
+  font-weight: 400;
   font-size: 50px;
 }
 
 h2 {
+  font-weight: 300;
   font-size: 20px;
 }
 
@@ -265,7 +287,7 @@ h3 {
   }
 }
 
-@media screen and (max-width: 1200px) {
+@media screen and (max-width: 1350px) {
   body {
     display: block;
   }
