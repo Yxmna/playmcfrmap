@@ -7,7 +7,7 @@
   <title>PMC MAP</title>
 </head>
 
-<body onresize="resize()">
+<body onresize="resize()" id="body">
 
 
   <div id="area">
@@ -37,6 +37,8 @@
         <span class="selected" id="info_menu" onclick="changePage(0)">INFORMATION</span> <span id="gallery_menu" onclick="changePage(1)">GALLERIE</span> <span id="option_menu" onclick="changePage(2)">OPTIONS</span>
       </div>
 
+
+
       <div id="info_page">
 
         <h2 id="desc"></h2>
@@ -48,9 +50,13 @@
 
       </div>
 
+
+
       <div id="gallery_page" class="none">
 
       </div>
+
+
 
       <div id="option_page" class="none">
         <h2>Type de map: <span onclick="mapType(0)">NORMAL</span> <span onclick="mapType(1)">LITE</span> </h2>
@@ -58,12 +64,15 @@
 
       </div>
 
+
+
+
     </div>
 
 
-    <div id="options">
+    <div id="select">
 
-      <h2>..</h2>
+      <h2>Carte sélectionnée: Les villes</h2>
     </div>
 
   </div>

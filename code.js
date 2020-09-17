@@ -12,8 +12,9 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.36"
+const version = "0.37"
 const map_img = new Image();
+const background = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
 var data = new Object;
@@ -212,18 +213,52 @@ function click(x) {
     }
 
 
-    if (data[x].gsx$image1.$t.startsWith("http")) {
-      document.getElementById("background").style.backgroundImage = "url(" + data[x].gsx$image1.$t + ")";
-      document.getElementById("background").style.opacity = 1;
-      document.getElementById("background").style.filter = "none";
-    } else {
-      document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-      document.getElementById("background").style.opacity = .25;
-      document.getElementById("background").style.filter = "grayscale(1)";
+    document.getElementById("gallery_page").innerHTML = "";
+    document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
+    document.getElementById("background").style.opacity = .25;
+    document.getElementById("background").style.filter = "grayscale(1)";
+
+
+    document.getElementById("background").onload = function() {
+      console.log("image is loaded");
     }
+    if (data[x].gsx$image1.$t.startsWith("http")) {
+      background.src = data[x].gsx$image1.$t;
+      background.onload = function() {
+        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
+        document.getElementById("background").style.opacity = 1;
+        document.getElementById("background").style.filter = "none";
+        loadGallery(x);
+      };
+    } else {
+      background.src = "./files/spawnv2.jpg";
+      background.onload = function() {
+        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
+        document.getElementById("background").style.opacity = .25;
+        document.getElementById("background").style.filter = "grayscale(1)";
+        loadGallery(x);
+      };
+    }
+
+
     actual_selected = x;
   }
 }
+
+
+
+function loadGallery(x) {
+  for (var i = 1; i < 11; i++) {
+    if (data[x]["gsx$image" + i].$t) {
+      var img = document.createElement("img");
+      img.src = data[x]["gsx$image" + i].$t;
+      document.getElementById("gallery_page").appendChild(img);
+    }
+  }
+}
+
+
+
 
 function mapType(x) {
   switch (x) {
@@ -242,9 +277,11 @@ function zoom(noredo) {
   if (area.classList.contains("zoom")) {
     menu.classList.remove("none");
     area.classList.remove("zoom");
+    document.getElementById("body").style.overflowY = "hidden";
   } else {
     area.classList.add("zoom");
     menu.classList.add("none");
+    document.getElementById("body").style.overflowY = "auto";
   }
   if (noredo) return;
   setTimeout(function() {
