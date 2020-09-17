@@ -4,7 +4,13 @@ body {
   display: flex;
   overflow-x: hidden;
   overflow-y: hidden;
-  background-color: #24292E;
+  background-color: #21252B;
+  position: relative;
+  z-index: -2;
+}
+
+element {
+  
 }
 
 @font-face {
@@ -100,6 +106,7 @@ body {
 #map {
   z-index: 1;
   background: url("./files/map_s1.png");
+  box-shadow: 0 0 40px -10px black;
 }
 
 #map_lite {
@@ -115,6 +122,8 @@ body {
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  position: relative;
+  z-index: -1;
 }
 
 #background {
@@ -294,31 +303,34 @@ h3 {
   display: none !important;
 }
 
-@media screen and (min-width: 1650px) {
+@media screen and (min-width: 1700px) {
   #menu {
     flex-direction: row;
-    overflow: auto;
+    /* overflow: auto; */
   }
 
   #info {
-    width: 65%;
-    max-width: 600px;
+    width: 100vw;
+    max-width: 625px;
+    min-width: 450px;
   }
 
   #select {
     position: relative;
-    width: 35%;
+    /* width: 35%; */
     margin: 0;
+    box-shadow: 0 0 40px -10px black;
   }
 
-    #info_page, #gallery_page, #option_page {
-      height: calc(100% - 195px) !important;
-    }
+  #info_page, #gallery_page, #option_page {
+    height: calc(100% - 195px) !important;
+  }
 }
 
 @media screen and (max-width: 1350px) {
   body {
     display: block;
+    overflow: auto;
   }
 
   #area {
@@ -335,12 +347,10 @@ h3 {
 
   #menu {
     height: auto;
+    margin-top: -4px;
   }
 
   #select {
-    margin-top: 50px;
     position: relative;
   }
-
-
 }
