@@ -149,7 +149,6 @@ body {
 
 #b {
   user-select: none;
-  margin: 0 0 20px 0;
   display: flex;
   justify-content: space-evenly;
   background-color: #21252B;
@@ -181,6 +180,7 @@ body {
 }
 
 #info_page, #gallery_page, #option_page {
+  padding-top: 20px;
   overflow-y: auto;
   height: calc(100% - 264px);
   background-color: #24292E;
@@ -310,6 +310,10 @@ h3 {
     width: 35%;
     margin: 0;
   }
+
+    #info_page, #gallery_page, #option_page {
+      height: calc(100% - 195px) !important;
+    }
 }
 
 @media screen and (max-width: 1350px) {
@@ -337,4 +341,6 @@ h3 {
     margin-top: 50px;
     position: relative;
   }
+
+
 }

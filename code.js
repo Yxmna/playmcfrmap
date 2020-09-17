@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.37"
+const version = "0.38"
 const map_img = new Image();
 const background = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
@@ -125,6 +125,7 @@ function click(x) {
       way.classList.add("none");
       pop.classList.add("none");
 
+      document.getElementById("gallery_page").innerHTML = "";
 
       document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
       document.getElementById("background").style.opacity = .25;
