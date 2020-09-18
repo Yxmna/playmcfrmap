@@ -77,14 +77,28 @@
 
       <div id="map_select">
 
-        <h2></h2>
+        <h2>Carte: </h2>
+
+        <div id="select_div">
+
+
+          <select id="selector">
+            <option value="Villes">Villes</option>
+            <!-- <option value="Shops">Commerce</option> -->
+          </select>
+
+        </div>
+
+        <div id="close" onclick="closeSearch()">
+          x
+        </div>
 
 
 
       </div>
 
       <div id="data_select">
-        <input type="search" placeholder="Recherche" onkeypress="updateSearch()" id="search">
+        <input type="search" placeholder="Recherche" onkeyup="updateSearch()" id="search" onclick="showSearch()">
 
         <div id="data_list">
 

@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.40"
+const version = "0.41"
 const map_img = new Image();
 const background = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
@@ -50,6 +50,27 @@ fetch(villes)
   })
 
 
+function showSearch() {
+  if (window.innerWidth <= 1650) {
+    document.getElementById("select").style.maxHeight = "none";
+    document.getElementById("select").style.display = "block";
+    document.getElementById("map_select").style.margin = "30px";
+    document.getElementById("search").style.margin = "0 30px 15px 30px";
+    document.getElementById("info").style.height = "0";
+    document.getElementById("close").style.display = "block";
+    document.getElementById("data_select").style.height = "calc(100vh - 85px)";
+  }
+}
+
+function closeSearch() {
+  document.getElementById("select").style = "";
+  document.getElementById("select").style = "";
+  document.getElementById("map_select").style = "";
+  document.getElementById("search").style = "";
+  document.getElementById("info").style = "";
+  document.getElementById("close").style = "";
+  document.getElementById("data_select").style = "";
+}
 
 
 function changePage(x) {
@@ -85,6 +106,9 @@ function changePage(x) {
 
 
 function resize() {
+  if (window.innerWidth>=1650) {
+    closeSearch();
+  }
   if (map.getBoundingClientRect().height != map_size) {
     redo();
   }
