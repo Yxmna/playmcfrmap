@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.39"
+const version = "0.40"
 const map_img = new Image();
 const background = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
@@ -39,7 +39,7 @@ fetch(villes)
   .then(function(obj) {
     data = obj.feed.entry;
     data = data.filter(function(a) {
-      if (a.gsx$overworldx.$t && a.gsx$nom.$t != "" && a.gsx$nom.$t != "//" && a.gsx$nom != " ") {
+      if (a.gsx$overworldx.$t && a.gsx$nom.$t != "" && a.gsx$nom.$t != "//" && a.gsx$nom != " " && a.gsx$status.$t != "Détruite" && !isNaN(a.gsx$overworldx.$t)) {
         return a;
       }
     });
@@ -290,36 +290,55 @@ function zoom(noredo) {
   }, 600);
 }
 
+function updateSearch() {
+  document.getElementById("data_list").innerHTML = "";
+  var value = document.getElementById("search").value.toLowerCase();
+  for (var i = 0; i < data.length; i++) {
+    if (data[i].gsx$nom.$t.toLowerCase().includes(value)) {
+      var c = document.createElement("h3");
+      c.innerHTML = data[i].gsx$nom.$t;
+      c.id = i;
+      c.onclick = async function() {
+        click(this.id);
+      }
+      document.getElementById("data_list").appendChild(c);
+    }
+  }
+}
 
 function load(map_size) {
   warpoints.innerHTML = "";
   for (var i = 0; i < data.length; i++) {
-    if (isNaN(data[i].gsx$overworldy.$t) || data[i].gsx$status.$t == "Détruite") {
-      //
-    } else {
-      var div = document.createElement("div");
-      var point = document.createElement("div");
-      var name = document.createElement("p");
-      name.innerHTML = data[i].gsx$nom.$t;
-      div.classList.add("data");
-      point.classList.add("point");
-      point.title = data[i].gsx$nom.$t;
-      point.id = i;
-      // point.style.height = 15 + "px";
-      // point.style.width = 15 + "px";
-      div.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-      div.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-      point.onclick = async function() {
-        click(this.id);
-      }
-      div.appendChild(point);
-      warpoints.appendChild(div);
-      name.id = "name" + i;
-      name.classList.add("name");
-      name.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-      name.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-      name.style.animationDuration = (Math.random() * (0.7 - 0.3)) + 0.4 + "s";
-      warpoints.appendChild(name);
+
+    var div = document.createElement("div");
+    var point = document.createElement("div");
+    var name = document.createElement("p");
+    name.innerHTML = data[i].gsx$nom.$t;
+    div.classList.add("data");
+    point.classList.add("point");
+    point.title = data[i].gsx$nom.$t;
+    point.id = i;
+    // point.style.height = 15 + "px";
+    // point.style.width = 15 + "px";
+    div.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    div.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    point.onclick = async function() {
+      click(this.id);
     }
+    div.appendChild(point);
+    warpoints.appendChild(div);
+    name.id = "name" + i;
+    name.classList.add("name");
+    name.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    name.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    name.style.animationDuration = (Math.random() * (0.7 - 0.3)) + 0.4 + "s";
+    warpoints.appendChild(name);
+
+    // console.log(data[i].gsx$nom.$t);
+
+    updateSearch();
+
+
   }
+
 }
