@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.45"
+const version = "0.46"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
@@ -232,27 +232,23 @@ function click(x) {
 
     document.getElementById("gallery_page").innerHTML = "";
     document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-
-
-    document.getElementById("background").onload = function() {
-      console.log("image is loaded");
-    }
+      document.getElementById("background").style.opacity = ".25";
 
     var background = new Image();
     if (data[x].gsx$image1.$t.startsWith("http")) {
       background.src = data[x].gsx$image1.$t;
       background.onload = function() {
-        console.log("img load");
+        document.getElementById("background").style.opacity = ".75";
         document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
         loadGallery(x);
       };
-      background.onerror = function () {
-        console.log("error load");
+      background.onerror = function() {
         document.getElementById("background").style = "";
+        loadGallery(x);
       }
     } else {
-      console.log("noimg");
       document.getElementById("background").style = "";
+      loadGallery(x);
     }
     background = "";
 
