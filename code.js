@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.44"
+const version = "0.45"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
 
@@ -240,14 +240,16 @@ function click(x) {
 
     var background = new Image();
     if (data[x].gsx$image1.$t.startsWith("http")) {
-      console.log("img");
       background.src = data[x].gsx$image1.$t;
       background.onload = function() {
         console.log("img load");
         document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
         loadGallery(x);
       };
-      document.getElementById("background").style.backgroundImage = "url(" + data[x].gsx$image1.$t + ")";
+      background.onerror = function () {
+        console.log("error load");
+        document.getElementById("background").style = "";
+      }
     } else {
       console.log("noimg");
       document.getElementById("background").style = "";
