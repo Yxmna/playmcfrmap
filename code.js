@@ -147,15 +147,8 @@ function click(x) {
       arch.classList.add("none");
       way.classList.add("none");
       pop.classList.add("none");
-
       document.getElementById("gallery_page").innerHTML = "";
-
-      document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-      document.getElementById("background").style.opacity = .25;
-      document.getElementById("background").style.filter = "grayscale(1)";
-
-
-
+      document.getElementById("background").style = "";
 
       return;
     }
@@ -239,8 +232,6 @@ function click(x) {
 
     document.getElementById("gallery_page").innerHTML = "";
     document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-    document.getElementById("background").style.opacity = .25;
-    document.getElementById("background").style.filter = "grayscale(1)";
 
 
     document.getElementById("background").onload = function() {
@@ -254,19 +245,12 @@ function click(x) {
       background.onload = function() {
         console.log("img load");
         document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
-        document.getElementById("background").style.opacity = 1;
-        document.getElementById("background").style.filter = "none";
         loadGallery(x);
       };
+      document.getElementById("background").style.backgroundImage = "url(" + data[x].gsx$image1.$t + ")";
     } else {
       console.log("noimg");
-      background.src = "./files/spawnv2.jpg";
-      background.onload = function() {
-        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
-        document.getElementById("background").style.opacity = .25;
-        document.getElementById("background").style.filter = "grayscale(1)";
-        loadGallery(x);
-      };
+      document.getElementById("background").style = "";
     }
     background = "";
 

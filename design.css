@@ -130,12 +130,11 @@ element {}
   background-image: url("./files/spawnv2.jpg");
   background-size: cover;
   background-position: center;
-  filter: grayscale(1);
   margin-bottom: -80px;
   z-index: 0;
   position: relative;
-  opacity: .25;
   box-shadow: 0 140px 125px -75px rgba(0, 0, 0, 0.75) inset;
+  opacity: .25;
 }
 
 #menu h1 {
