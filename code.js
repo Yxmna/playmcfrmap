@@ -12,7 +12,7 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.48"
+const version = "0.49"
 const map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
 const shops = "https://spreadsheets.google.com/feeds/list/1yDpIpiEO_6MKyA8F9njDm8XpOIdYq7rzAG2rxm1e-MA/od6/public/values?alt=json";
@@ -308,7 +308,7 @@ function click(x) {
       }
       actual_selected = "";
       document.getElementById(x).classList.remove("selected");
-      name.innerHTML = ".."
+      name.innerHTML = "&#160"
       desc.classList.add("none");
       fon.classList.add("none");
       ma.classList.add("none");
@@ -468,7 +468,7 @@ function load(map_size) {
       div.classList.remove("none");
     }
   }
-  name.innerHTML = "..";
+  name.innerHTML = "&#160"
   desc.innerHTML = "";
   fon.innerHTML = "";
   ma.innerHTML = "";
