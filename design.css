@@ -257,7 +257,7 @@ element {}
   user-select: none;
 }
 
-#select h3:hover {
+#select h3:hover, #close:hover  {
   filter: brightness(125%);
 }
 

@@ -12,12 +12,13 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.46"
+const version = "0.47"
 const map_img = new Image();
-const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json"
+const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
+const shops = "https://spreadsheets.google.com/feeds/list/1yDpIpiEO_6MKyA8F9njDm8XpOIdYq7rzAG2rxm1e-MA/od6/public/values?alt=json";
 
-var data = new Object;
-var data2 = new Object;
+var villes_data = new Object;
+var shops_data = new Object;
 var map_size = 938;
 var pmc_size = 6144;
 var actual_selected = "";
@@ -31,22 +32,44 @@ map_img.onload = function() {
   map.src = this.src;
 };
 
+
+
+
 fetch(villes)
   .then(function(res) {
     return res.json();
   })
   .then(function(obj) {
-    data = obj.feed.entry;
-    data = data.filter(function(a) {
+    villes_data = obj.feed.entry;
+    villes_data = villes_data.filter(function(a) {
       if (a.gsx$overworldx.$t && a.gsx$nom.$t != "" && a.gsx$nom.$t != "//" && a.gsx$nom != " " && a.gsx$status.$t != "Détruite" && !isNaN(a.gsx$overworldx.$t)) {
         return a;
       }
     });
-    data.sort(function(a, b) {
+    villes_data.sort(function(a, b) {
       return a.gsx$overworldy.$t - b.gsx$overworldy.$t;
     });
     redo();
   })
+
+fetch(shops)
+  .then(function(res) {
+    return res.json();
+  })
+  .then(function(obj) {
+    shops_data = obj.feed.entry;
+    shops_data = shops_data.filter(function(a) {
+      if (a.gsx$overworldx.$t && a.gsx$nom.$t != "" && a.gsx$nom.$t != "//" && a.gsx$nom != " " && a.gsx$status.$t != "Détruite" && !isNaN(a.gsx$overworldx.$t)) {
+        return a;
+      }
+    });
+    shops_data.sort(function(a, b) {
+      return a.gsx$overworldy.$t - b.gsx$overworldy.$t;
+    });
+    redo();
+  })
+
+
 
 
 function showSearch() {
@@ -118,6 +141,155 @@ function redo() {
   load(map_size);
 }
 
+
+function click_two(x, db, type) {
+
+
+  if (type == "villes") {
+
+    name.innerHTML = db[x].gsx$nom.$t;
+    if (db[x].gsx$description != "//" || db[x.gsx$description != ".."]) {
+      desc.innerHTML = db[x].gsx$description.$t;
+      desc.classList.remove("none");
+    } else {
+      desc.classList.add("none");
+    }
+    if (db[x].gsx$fondateur.$t && db[x].gsx$fondateur.$t != "//") {
+      fon.classList.remove("none");
+      if (db[x].gsx$date.$t && db[x].gsx$date.$t != "//") {
+        fon.innerHTML = "Fondée en " + db[x].gsx$date.$t + " par " + db[x].gsx$fondateur.$t;
+      } else {
+        fon.innerHTML = "Fondée par " + db[x].gsx$fondateur.$t;
+      }
+    } else if (db[x].gsx$date.$t && db[x].gsx$date.$t != "//") {
+      fon.classList.remove("none");
+      fon.innerHTML = "Fondée en " + db[x].gsx$date.$t;
+    } else {
+      fon.classList.add("none");
+    }
+    if (db[x].gsx$architecturegeneral.$t && db[x].gsx$architecturegeneral.$t != "//") {
+      arch.classList.remove("none");
+      if (db[x].gsx$architecturedetail.$t && db[x].gsx$architecturedetail.$t != "//") {
+        arch.innerHTML = "Architecture: " + db[x].gsx$architecturegeneral.$t + ", " + db[x].gsx$architecturedetail.$t;
+      } else {
+        arch.innerHTML = "Architecture: " + db[x].gsx$architecturegeneral.$t;
+      }
+    } else {
+      arch.classList.add("none");
+    }
+    if (db[x].gsx$maire.$t && db[x].gsx$maire.$t != "//") {
+      ma.classList.remove("none");
+      ma.innerHTML = "Maire actuel: " + db[x].gsx$maire.$t;
+    } else {
+      ma.classList.add("none");
+    }
+    if (db[x].gsx$point.$t && db[x].gsx$point.$t != "//") {
+      way.classList.remove("none");
+      way.innerHTML = "Adresse du nether: " + db[x].gsx$point.$t + " " + db[x].gsx$sortie.$t + " " + db[x].gsx$direction.$t;
+    } else {
+      way.classList.add("none");
+    }
+    if (db[x].gsx$populationactuel && isNaN(db[x].gsx$populationactuel.$t)) {
+      db[x].gsx$populationactuel.$t = db[x].gsx$populationactuel.$t = db[x].gsx$populationactuel.$t.split(" ").join("").split(",").length;
+    }
+    if (db[x].gsx$populationtotal && isNaN(db[x].gsx$populationtotal.$t) && db[x].gsx$populationtotal) {
+      db[x].gsx$populationtotal.$t = db[x].gsx$populationtotal.$t = db[x].gsx$populationtotal.$t.split(" ").join("").split(",").length;
+    }
+    if (db[x].gsx$populationinactif && isNaN(db[x].gsx$populationinactif.$t)) {
+      db[x].gsx$populationinactif.$t = db[x].gsx$populationinactif.$t = db[x].gsx$populationinactif.$t.split(" ").join("").split(",").length;
+    }
+    if (db[x].gsx$populationbanni && isNaN(db[x].gsx$populationbanni.$t)) {
+      db[x].gsx$populationbanni.$t = db[x].gsx$populationbanni.$t = db[x].gsx$populationbanni.$t.split(" ").join("").split(",").length;
+    }
+    if (db[x].gsx$populationparti && isNaN(db[x].gsx$populationparti.$t)) {
+      db[x].gsx$populationparti.$t = db[x].gsx$populationparti.$t = db[x].gsx$populationparti.$t.split(" ").join("").split(",").length;
+    }
+    if (db[x].gsx$populationactuel.$t && db[x].gsx$populationactuel.$t != "//") {
+      pop.classList.remove("none");
+      if (db[x].gsx$populationtotal.$t && db[x].gsx$populationtotal.$t != "//") {
+        pop.innerHTML = "Population actuel: " + db[x].gsx$populationactuel.$t + " sur " + db[x].gsx$populationtotal.$t;
+      } else {
+        pop.innerHTML = "Population actuel: " + db[x].gsx$populationactuel.$t;
+      }
+    } else if (db[x].gsx$populationtotal.$t && db[x].gsx$populationtotal.$t != "//") {
+      pop.classList.remove("none");
+      pop.innerHTML = "Population total: " + db[x].gsx$populationtotal.$t;
+    } else {
+      pop.classList.add("none");
+    }
+    var background = new Image();
+    if (db[x].gsx$image1.$t.startsWith("http")) {
+      background.src = db[x].gsx$image1.$t;
+      background.onload = function() {
+        document.getElementById("background").style.opacity = ".75";
+        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
+        loadGallery(x, db);
+      };
+      background.onerror = function() {
+        document.getElementById("background").style = "";
+        loadGallery(x, db);
+      }
+    } else {
+      document.getElementById("background").style = "";
+      loadGallery(x, db);
+    }
+  } else if (type == "shops") {
+
+
+
+
+
+    name.innerHTML = db[x].gsx$nom.$t;
+    if (db[x].gsx$description != "//" || db[x.gsx$description != ".."]) {
+      desc.innerHTML = db[x].gsx$description.$t;
+      desc.classList.remove("none");
+    } else {
+      desc.classList.add("none");
+    }
+    if (db[x].gsx$fondateur.$t && db[x].gsx$fondateur.$t != "//") {
+      fon.classList.remove("none");
+      if (db[x].gsx$date.$t && db[x].gsx$date.$t != "//") {
+        fon.innerHTML = "Fondée en " + db[x].gsx$date.$t + " par " + db[x].gsx$fondateur.$t;
+      } else {
+        fon.innerHTML = "Fondée par " + db[x].gsx$fondateur.$t;
+      }
+    } else if (db[x].gsx$date.$t && db[x].gsx$date.$t != "//") {
+      fon.classList.remove("none");
+      fon.innerHTML = "Fondée en " + db[x].gsx$date.$t;
+    } else {
+      fon.classList.add("none");
+    }
+    arch.classList.add("none");
+    ma.classList.add("none");
+    if (db[x].gsx$point.$t && db[x].gsx$point.$t != "//") {
+      way.classList.remove("none");
+      way.innerHTML = "Adresse du nether: " + db[x].gsx$point.$t + " " + db[x].gsx$sortie.$t + " " + db[x].gsx$direction.$t;
+    } else {
+      way.classList.add("none");
+    }
+    pop.classList.add("none");
+    var background = new Image();
+    if (db[x].gsx$image1.$t.startsWith("http")) {
+      background.src = db[x].gsx$image1.$t;
+      background.onload = function() {
+        document.getElementById("background").style.opacity = ".75";
+        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
+        loadGallery(x, db);
+      };
+      background.onerror = function() {
+        document.getElementById("background").style = "";
+        loadGallery(x, db);
+      }
+    } else {
+      document.getElementById("background").style = "";
+      loadGallery(x, db);
+    }
+
+
+  }
+
+}
+
 function click(x) {
   warpoints.innerHTML = "";
   if (area.classList.contains("zoom")) {
@@ -136,11 +308,7 @@ function click(x) {
       }
       actual_selected = "";
       document.getElementById(x).classList.remove("selected");
-
-
-
-      name.innerHTML = "Les villes"
-
+      name.innerHTML = ".."
       desc.classList.add("none");
       fon.classList.add("none");
       ma.classList.add("none");
@@ -149,7 +317,6 @@ function click(x) {
       pop.classList.add("none");
       document.getElementById("gallery_page").innerHTML = "";
       document.getElementById("background").style = "";
-
       return;
     }
     for (var div of warpoints.children) {
@@ -160,110 +327,44 @@ function click(x) {
     document.getElementById("name" + x).classList.remove("none");
     document.getElementById(x).classList.add("selected");
     document.getElementById("name" + x).classList.add("name_selected");
-    name.innerHTML = data[x].gsx$nom.$t;
-
-
-
-    if (data[x].gsx$description != "//" || data[x.gsx$description != ".."]) {
-      desc.innerHTML = data[x].gsx$description.$t;
-      desc.classList.remove("none");
-    } else {
-      desc.classList.add("none");
-    }
-
-
-    if (data[x].gsx$fondateur.$t && data[x].gsx$fondateur.$t != "//") {
-      fon.classList.remove("none");
-      if (data[x].gsx$date.$t && data[x].gsx$date.$t != "//") {
-        fon.innerHTML = "Fondée en " + data[x].gsx$date.$t + " par " + data[x].gsx$fondateur.$t;
-      } else {
-        fon.innerHTML = "Fondée par " + data[x].gsx$fondateur.$t;
-      }
-    } else if (data[x].gsx$date.$t && data[x].gsx$date.$t != "//") {
-      fon.classList.remove("none");
-      fon.innerHTML = "Fondée en " + data[x].gsx$date.$t;
-    } else {
-      fon.classList.add("none");
-    }
-
-
-    if (data[x].gsx$architecturegeneral.$t && data[x].gsx$architecturegeneral.$t != "//") {
-      arch.classList.remove("none");
-      if (data[x].gsx$architecturedetail.$t && data[x].gsx$architecturedetail.$t != "//") {
-        arch.innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t + ", " + data[x].gsx$architecturedetail.$t;
-      } else {
-        arch.innerHTML = "Architecture: " + data[x].gsx$architecturegeneral.$t;
-      }
-    } else {
-      arch.classList.add("none");
-    }
-
-
-    if (data[x].gsx$maire.$t && data[x].gsx$maire.$t != "//") {
-      ma.classList.remove("none");
-      ma.innerHTML = "Maire actuel: " + data[x].gsx$maire.$t;
-    } else {
-      ma.classList.add("none");
-    }
-
-
-    if (data[x].gsx$point.$t && data[x].gsx$point.$t != "//") {
-      way.classList.remove("none");
-      way.innerHTML = "Adresse du nether: " + data[x].gsx$point.$t + " " + data[x].gsx$sortie.$t + " " + data[x].gsx$direction.$t;
-    } else {
-      way.classList.add("none");
-    }
-
-
-    if (data[x].gsx$populationactuel.$t && data[x].gsx$populationactuel.$t != "//") {
-      pop.classList.remove("none");
-      if (data[x].gsx$populationtotal.$t && data[x].gsx$populationtotal.$t != "//") {
-        pop.innerHTML = "Population actuel: " + data[x].gsx$populationactuel.$t + " sur " + data[x].gsx$populationtotal.$t;
-      } else {
-        pop.innerHTML = "Population actuel: " + data[x].gsx$populationactuel.$t;
-      }
-    } else if (data[x].gsx$populationtotal.$t && data[x].gsx$populationtotal.$t != "//") {
-      pop.classList.remove("none");
-      pop.innerHTML = "Population total: " + data[x].gsx$populationtotal.$t;
-    } else {
-      pop.classList.add("none");
-    }
-
-
     document.getElementById("gallery_page").innerHTML = "";
     document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
-      document.getElementById("background").style.opacity = ".25";
+    document.getElementById("background").style.opacity = ".25";
 
-    var background = new Image();
-    if (data[x].gsx$image1.$t.startsWith("http")) {
-      background.src = data[x].gsx$image1.$t;
-      background.onload = function() {
-        document.getElementById("background").style.opacity = ".75";
-        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
-        loadGallery(x);
-      };
-      background.onerror = function() {
-        document.getElementById("background").style = "";
-        loadGallery(x);
-      }
-    } else {
-      document.getElementById("background").style = "";
-      loadGallery(x);
+
+
+
+
+
+    switch (document.getElementById("db").value) {
+      case "villes":
+        click_two(x, villes_data, "villes");
+        break;
+      case "shops":
+        click_two(x, shops_data, "shops");
+        break;
     }
+
+
+
+
+
+
+
+
+
     background = "";
-
-
     actual_selected = x;
   }
 }
 
 
 
-function loadGallery(x) {
+function loadGallery(x, db) {
   for (var i = 1; i < 11; i++) {
-    if (data[x]["gsx$image" + i].$t) {
+    if (db[x]["gsx$image" + i].$t) {
       var img = document.createElement("img");
-      img.src = data[x]["gsx$image" + i].$t;
+      img.src = db[x]["gsx$image" + i].$t;
       document.getElementById("gallery_page").appendChild(img);
     }
   }
@@ -301,13 +402,13 @@ function zoom(noredo) {
   }, 600);
 }
 
-function updateSearch() {
+function updateSearch(db) {
   document.getElementById("data_list").innerHTML = "";
   var value = document.getElementById("search").value.toLowerCase();
-  for (var i = 0; i < data.length; i++) {
-    if (data[i].gsx$nom.$t.toLowerCase().includes(value)) {
+  for (var i = 0; i < db.length; i++) {
+    if (db[i].gsx$nom.$t.toLowerCase().includes(value)) {
       var c = document.createElement("h3");
-      c.innerHTML = data[i].gsx$nom.$t;
+      c.innerHTML = db[i].gsx$nom.$t;
       c.id = i;
       c.onclick = async function() {
         click(this.id);
@@ -317,22 +418,21 @@ function updateSearch() {
   }
 }
 
-function load(map_size) {
-  warpoints.innerHTML = "";
-  for (var i = 0; i < data.length; i++) {
 
+function loadPoint(db) {
+  for (var i = 0; i < db.length; i++) {
     var div = document.createElement("div");
     var point = document.createElement("div");
     var name = document.createElement("p");
-    name.innerHTML = data[i].gsx$nom.$t;
+    name.innerHTML = db[i].gsx$nom.$t;
     div.classList.add("data");
     point.classList.add("point");
-    point.title = data[i].gsx$nom.$t;
+    point.title = db[i].gsx$nom.$t;
     point.id = i;
     // point.style.height = 15 + "px";
     // point.style.width = 15 + "px";
-    div.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-    div.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    div.style.left = (Math.floor(db[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    div.style.top = (Math.floor(db[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     point.onclick = async function() {
       click(this.id);
     }
@@ -340,16 +440,39 @@ function load(map_size) {
     warpoints.appendChild(div);
     name.id = "name" + i;
     name.classList.add("name");
-    name.style.left = (Math.floor(data[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-    name.style.top = (Math.floor(data[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    name.style.left = (Math.floor(db[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
+    name.style.top = (Math.floor(db[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     name.style.animationDuration = (Math.random() * (0.7 - 0.3)) + 0.4 + "s";
     warpoints.appendChild(name);
-
-    // console.log(data[i].gsx$nom.$t);
-
-    updateSearch();
-
-
+    updateSearch(db);
   }
+}
 
+
+
+
+function load(map_size) {
+  for (var div of warpoints.children) {
+    if (div.localName == "p") {
+      div.classList.remove("none");
+    }
+  }
+  name.innerHTML = "..";
+  desc.innerHTML = "";
+  fon.innerHTML = "";
+  ma.innerHTML = "";
+  arch.innerHTML = "";
+  way.innerHTML = "";
+  pop.innerHTML = "";
+  document.getElementById("gallery_page").innerHTML = "";
+  document.getElementById("background").style = "";
+  warpoints.innerHTML = "";
+  switch (document.getElementById("db").value) {
+    case "villes":
+      loadPoint(villes_data);
+      break;
+    case "shops":
+      loadPoint(shops_data);
+      break;
+  }
 }
