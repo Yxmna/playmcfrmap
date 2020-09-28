@@ -257,7 +257,7 @@ element {}
   user-select: none;
 }
 
-#select h3:hover, #close:hover  {
+#select h3:hover, #close:hover {
   filter: brightness(125%);
 }
 
@@ -282,7 +282,6 @@ element {}
   display: none;
 }
 
-
 #info_page, #gallery_page, #option_page {
   padding-top: 20px;
   overflow-y: auto;
@@ -296,15 +295,46 @@ element {}
   margin: 5%;
 }
 
-span {
-  cursor: pointer;
-  color: cornflowerblue;
+#option_page h3 {
+  user-select: none;
+  padding: 12px 20px;
+  background: #202429;
+  border-radius: 10px;
+  font-size: 20px;
+  transition: all .25s;
+}
+
+#option_page h3:hover {
+  filter: brightness(95%);
+}
+
+#option_page h3.check {
+  background-color: #1D2025;
+}
+
+#option_page h3::before {
+  content: "❌";
+  margin-right: 8px;
+  visibility: hidden;
+}
+
+#option_page h3.check::before {
+  content: "✔️";
+  visibility: visible;
+}
+
+#option_page h4 {
+  opacity: .5;
+  text-transform: uppercase;
 }
 
 .data {
-  pointer-events: none;
+  pointer-events: all;
+  cursor: pointer;
   position: absolute;
-  transform: translateY(-100%);
+  /* transform: translateY(-100%); */
+  transform: translate(-50%, -14px);
+  padding: 5px;
 }
 
 .name {
@@ -339,25 +369,25 @@ span {
 }
 
 .point {
-  pointer-events: all;
-  cursor: pointer;
   width: 10px;
   height: 10px;
   background-color: rgb(255, 255, 255);
   border-radius: 50%;
   box-shadow: 0 0 0px 4px rgba(255, 255, 255, .125);
-  transform: translate(-50%, 50%);
+  /* transform: translate(-50%, 50%); */
   border: rgba(0, 0, 0, .75) 4px solid;
   /* animation: waiting 1s infinite; */
+  transition: transform 1s !important;
 }
 
-.point.selected {
+.data.selected .point {
   background-color: tomato;
   width: 15px;
   height: 15px;
+  z-index: 69;
 }
 
-.point.selected:after {
+.data.selected .point:after {
   content: "";
   pointer-events: none;
   opacity: 1;
@@ -370,6 +400,22 @@ span {
   left: -7px;
   position: absolute;
   animation: pointing 1.75s infinite ease-out;
+}
+
+.active, .actif {
+  background-color: #6FA8DC;
+}
+
+.inactive, .inactif {
+  background-color: #D9D9D9;
+}
+
+.abandonnee, .abandonne {
+  background-color: #F6B26B;
+}
+
+.idk {
+  background-color: #999999;
 }
 
 h1, h2, h3 {
@@ -387,7 +433,8 @@ h2 {
 }
 
 h3 {
-  font-size: 15px;
+  font-weight: 300;
+  font-size: 20px;
 }
 
 .void {

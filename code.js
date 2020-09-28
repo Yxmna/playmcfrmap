@@ -12,11 +12,19 @@ const arch = document.getElementById("arch");
 const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
-const version = "0.49"
+
+const version = "0.50"
 const map_img = new Image();
+const lite_map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
 const shops = "https://spreadsheets.google.com/feeds/list/1yDpIpiEO_6MKyA8F9njDm8XpOIdYq7rzAG2rxm1e-MA/od6/public/values?alt=json";
 
+var darray = [];
+var dname = "";
+var lite_map = false;
+var show_tag = true;
+var show_color = false;
+var show_only = false;
 var villes_data = new Object;
 var shops_data = new Object;
 var map_size = 938;
@@ -27,10 +35,22 @@ var actual_selected = "";
 
 console.log("version: " + version);
 
-map_img.src = "./files/map1.png";
-map_img.onload = function() {
-  map.src = this.src;
+
+lite_map_img.src = "./files/map_s1.png";
+
+
+
+lite_map_img.onload = function() {
+  map.src = lite_map_img.src;
+  map_img.src = "./files/map1.png";
+  map_img.onload = function() {
+    map.src = this.src;
+  };
 };
+
+
+
+
 
 
 
@@ -143,10 +163,7 @@ function redo() {
 
 
 function click_two(x, db, type) {
-
-
   if (type == "villes") {
-
     name.innerHTML = db[x].gsx$nom.$t;
     if (db[x].gsx$description != "//" || db[x.gsx$description != ".."]) {
       desc.innerHTML = db[x].gsx$description.$t;
@@ -234,11 +251,6 @@ function click_two(x, db, type) {
       loadGallery(x, db);
     }
   } else if (type == "shops") {
-
-
-
-
-
     name.innerHTML = db[x].gsx$nom.$t;
     if (db[x].gsx$description != "//" || db[x.gsx$description != ".."]) {
       desc.innerHTML = db[x].gsx$description.$t;
@@ -284,10 +296,7 @@ function click_two(x, db, type) {
       document.getElementById("background").style = "";
       loadGallery(x, db);
     }
-
-
   }
-
 }
 
 function click(x) {
@@ -302,7 +311,7 @@ function click(x) {
     load(map_size);
     if (actual_selected == x) {
       for (var div of warpoints.children) {
-        if (div.localName == "p") {
+        if (div.localName == "p" && show_tag) {
           div.classList.remove("none");
         }
       }
@@ -330,12 +339,6 @@ function click(x) {
     document.getElementById("gallery_page").innerHTML = "";
     document.getElementById("background").style.backgroundImage = "url(./files/spawnv2.jpg)";
     document.getElementById("background").style.opacity = ".25";
-
-
-
-
-
-
     switch (document.getElementById("db").value) {
       case "villes":
         click_two(x, villes_data, "villes");
@@ -344,15 +347,6 @@ function click(x) {
         click_two(x, shops_data, "shops");
         break;
     }
-
-
-
-
-
-
-
-
-
     background = "";
     actual_selected = x;
   }
@@ -371,17 +365,47 @@ function loadGallery(x, db) {
 }
 
 
-
-
-function mapType(x) {
-  switch (x) {
-    case 0:
-      map.src = "./files/map1.png";
-      break;
-    case 1:
-      map.src = "./files/map_s1.png";
-      break;
+function mapType() {
+  if (!lite_map) {
+    map.src = lite_map_img.src;
+    document.getElementById("maptype").classList.add("check");
+  } else {
+    map.src = map_img.src;
+    document.getElementById("maptype").classList.remove("check");
   }
+  lite_map = !lite_map;
+}
+
+function showTag() {
+  if (!show_tag) {
+    document.getElementById("showtag").classList.add("check");
+  } else {
+    document.getElementById("showtag").classList.remove("check");
+  }
+  show_tag = !show_tag;
+  load(map_size);
+}
+
+
+
+function showOnly() {
+  if (!show_only) {
+    document.getElementById("showonly").classList.add("check");
+  } else {
+    document.getElementById("showonly").classList.remove("check");
+  }
+  show_only = !show_only;
+  load(map_size);
+}
+
+function showColor() {
+  if (!show_color) {
+    document.getElementById("showcolor").classList.add("check");
+  } else {
+    document.getElementById("showcolor").classList.remove("check");
+  }
+  show_color = !show_color;
+  load(map_size);
 }
 
 function zoom(noredo) {
@@ -432,21 +456,45 @@ function updateSearch(db) {
 
 function loadPoint(db) {
   for (var i = 0; i < db.length; i++) {
+    if (show_only) {
+      if (db[i].gsx$status.$t.toLowerCase() != "active") {
+          continue;
+      }
+    }
     var div = document.createElement("div");
     var point = document.createElement("div");
     var name = document.createElement("p");
     name.innerHTML = db[i].gsx$nom.$t;
     div.classList.add("data");
     point.classList.add("point");
+    point.style.transform = "scale(1)";
     point.title = db[i].gsx$nom.$t;
-    point.id = i;
-    // point.style.height = 15 + "px";
-    // point.style.width = 15 + "px";
+
+    if (show_color) {
+      if (db[i].gsx$status.$t) {
+      point.classList.add(db[i].gsx$status.$t.toLowerCase().replace(new RegExp("[é]", 'g'),"e"));
+    } else {
+    point.classList.add("idk");
+    }
+    }
+
+    if (darray) {
+      point.style.transform = "scale(" + (0.75 + darray[i] * 4) + ")";
+      point.style.borderWidth = 4 - (3 * darray[i]) + "px";
+
+
+
+      // point.style.height = (100 * darray[i] + 10) + "px";
+      // point.style.width = (100 * darray[i] + 10) + "px";
+      // point.style.transform =  "translateY(-50%)"
+    }
+
     div.style.left = (Math.floor(db[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     div.style.top = (Math.floor(db[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
-    point.onclick = async function() {
+    div.onclick = async function() {
       click(this.id);
     }
+    div.id = i;
     div.appendChild(point);
     warpoints.appendChild(div);
     name.id = "name" + i;
@@ -454,9 +502,85 @@ function loadPoint(db) {
     name.style.left = (Math.floor(db[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     name.style.top = (Math.floor(db[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     name.style.animationDuration = (Math.random() * (0.7 - 0.3)) + 0.4 + "s";
+    if (!show_tag) {
+      name.classList.add("none");
+    }
     warpoints.appendChild(name);
     updateSearch(db);
   }
+}
+
+
+
+function idkhownameit(db, x) {
+  darray = [];
+  if (dname.split("")[1] == x) {
+    dname = "";
+  } else {
+
+    switch (x) {
+
+      case 0:
+        dname = "h0"
+        for (var i = 0; i < db.length; i++) {
+          if (isNaN(db[i].gsx$populationactuel.$t)) {
+            darray.push(db[i].gsx$populationactuel.$t.split(",").length);
+          } else {
+            darray.push(Math.floor(db[i].gsx$populationactuel.$t));
+          }
+        }
+        var max = Math.max(...darray);
+        darray = darray.map(x => x / max);
+        document.getElementById("h0").classList.add("check");
+        break;
+
+      case 1:
+        dname = "h1"
+        for (var i = 0; i < db.length; i++) {
+          if (isNaN(db[i].gsx$populationtotal.$t)) {
+            darray.push(db[i].gsx$populationtotal.$t.split(",").length);
+          } else {
+            darray.push(Math.floor(db[i].gsx$populationtotal.$t));
+          }
+        }
+        var max = Math.max(...darray);
+        darray = darray.map(x => x / max);
+        document.getElementById("h1").classList.add("check");
+        break;
+
+      case 2:
+        dname = "h2"
+        for (var i = 0; i < db.length; i++) {
+          darray.push(db[i].gsx$total.$t);
+        }
+        var max = Math.max(...darray);
+        darray = darray.map(x => x / max);
+        document.getElementById("h2").classList.add("check");
+        break;
+
+      case 3:
+        dname = "h3"
+        for (var i = 0; i < db.length; i++) {
+          if (db[i].gsx$date.$t =="") {
+            darray.push(2020);
+          } else {
+            darray.push(db[i].gsx$date.$t);
+          }
+        }
+        console.log(darray);
+        var max = Math.max(...darray);
+        darray = darray.map(x => Math.abs(x - max));
+        console.log(darray);
+        darray = darray.map(x => x / (max-2015));
+        console.log(darray);
+
+
+        document.getElementById("h3").classList.add("check");
+        break;
+
+    }
+  }
+  load(map_size);
 }
 
 
@@ -478,9 +602,49 @@ function load(map_size) {
   document.getElementById("gallery_page").innerHTML = "";
   document.getElementById("background").style = "";
   warpoints.innerHTML = "";
+
+
   switch (document.getElementById("db").value) {
     case "villes":
       loadPoint(villes_data);
+
+
+
+      document.getElementById("option_data").innerHTML = "";
+      for (var i = 0; i < 4; i++) {
+        var h = document.createElement("h3");
+        h.id = "h" + i;
+        h.onclick = function() {
+          idkhownameit(villes_data, Math.floor(this.id.split("")[1]));
+        }
+        switch (i) {
+          case 0:
+            h.innerHTML = "Population actuel";
+            break;
+          case 1:
+            h.innerHTML = "Population total";
+            break;
+          case 2:
+            h.innerHTML = "Batiments";
+            break;
+          case 3:
+            h.innerHTML = "Date de création";
+            break;
+        }
+        if (dname == h.id) {
+          h.classList.add("check");
+        }
+        document.getElementById("option_data").appendChild(h);
+      }
+
+
+
+
+
+
+
+
+
       break;
     case "shops":
       loadPoint(shops_data);

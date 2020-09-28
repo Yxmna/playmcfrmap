@@ -12,7 +12,7 @@
 
   <div id="area">
     <!-- <img id="map_lite" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false"> -->
-    <img id="map" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false">
+    <img id="map" draggable="false" src="./files/map_ss1.png" onclick="zoom()" draggable="false">
 
     <div id="warpoints">
 
@@ -59,7 +59,33 @@
 
 
       <div id="option_page" class="none">
-        <h2>Type de map: <span onclick="mapType(0)">NORMAL</span> <span onclick="mapType(1)">LITE</span> </h2>
+        <h4>Carte</h4>
+        <h3 id="maptype" onclick="mapType()">Carte simplifiée</h3>
+        <h3 id="showtag" onclick="showTag()" class="check">Toujours afficher les étiquettes</h3>
+
+
+        <h4>Activité</h4>
+        <h3 id="showcolor" onclick="showColor()" class="">Afficher les couleurs</h3>
+        <h3 id="showonly" onclick="showOnly()" class="">Seulement les actifs/actives</h3>
+
+
+
+
+
+
+        <h4>Données</h4>
+
+
+        <div id="option_data">
+
+          <!-- <h3 id="h0" onclick="showTag()" class="">Population actuel</h3>
+                  <h3 id="h1" onclick="showTag()" class="">Population total</h3>
+                  <h3 id="h2" onclick="showTag()" class="">Batiments</h3>
+                  <h3 id="h3" onclick="showTag()" class="">Date de création</h3> -->
+        </div>
+
+
+
         <h4>By Yomna</h4>
 
       </div>
@@ -84,7 +110,7 @@
 
           <select id="db" onchange="load()">
             <option value="villes">Villes</option>
-              <option value="shops">Commerces</option>
+            <option value="shops">Commerces</option>
           </select>
 
         </div>
