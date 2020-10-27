@@ -338,6 +338,20 @@ element {}
   border-radius: 50%;
 }
 
+#insert_text {
+  resize: none;
+  width: 80%;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  height: 90%;
+  background: #2D333A;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+}
+
 .name {
   position: absolute;
   margin: 0;

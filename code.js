@@ -13,7 +13,7 @@ const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
 
-const version = "0.52"
+const version = "0.53"
 const map_img = new Image();
 const lite_map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
@@ -27,6 +27,7 @@ var show_color = false;
 var show_only = false;
 var villes_data = new Object;
 var shops_data = new Object;
+var claims_data = [];
 var map_size = 938;
 var pmc_size = 6144;
 var actual_selected = "";
@@ -296,6 +297,8 @@ function click_two(x, db, type) {
       document.getElementById("background").style = "";
       loadGallery(x, db);
     }
+  } else if (type == "claims") {
+    //nothing here
   }
 }
 
@@ -345,6 +348,9 @@ function click(x) {
         break;
       case "shops":
         click_two(x, shops_data, "shops");
+        break;
+      case "claims":
+        click_two(x, claims_data, "claims");
         break;
     }
     background = "";
@@ -433,6 +439,9 @@ function startSearch() {
       break;
     case "shops":
       updateSearch(shops_data);
+      break;
+    case "claims":
+      updateSearch(claims_data);
       break;
   }
 }
@@ -606,7 +615,12 @@ function load(map_size) {
 
   document.getElementById("option_data").innerHTML = "";
   switch (document.getElementById("db").value) {
+
+
+
+
     case "villes":
+      document.getElementById("insert_text").classList.add("none");
       loadPoint(villes_data);
 
 
@@ -636,17 +650,14 @@ function load(map_size) {
         }
         document.getElementById("option_data").appendChild(h);
       }
-
-
-
-
-
-
-
-
-
       break;
+
+
+
+
+
     case "shops":
+      document.getElementById("insert_text").classList.add("none");
       loadPoint(shops_data);
 
       for (var i = 0; i < 4; i++) {
@@ -667,7 +678,36 @@ function load(map_size) {
           document.getElementById("option_data").appendChild(h);
         }
       }
+      break;
 
+
+    case "claims":
+      document.getElementById("insert_text").classList.remove("none");
+      var claims_data_temp = document.getElementById("insert_text").value;
+      claims_data_temp = claims_data_temp.split("\n");
+      claims_data_temp = claims_data_temp.filter(function(a) {
+        return a;
+      });
+      claims_data_temp.forEach((item, i) => {
+        claims_data[i] = {
+          gsx$nom: {
+            $t: item.split("(-")[1].split(")")[0]
+          },
+          gsx$status: {
+            $t: "active"
+          },
+          gsx$overworldx: {
+            $t: item.split("x")[1].split(",")[0]
+          },
+          gsx$overworldy: {
+            $t: item.split("z")[1].split(" ")[0]
+          }
+        };
+      });
+      claims_data.sort(function(a, b) {
+        return a.gsx$overworldy.$t - b.gsx$overworldy.$t;
+      });
+      loadPoint(claims_data);
       break;
   }
 }
