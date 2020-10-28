@@ -13,7 +13,7 @@ const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
 
-const version = "0.53"
+const version = "1.0"
 const map_img = new Image();
 const lite_map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
@@ -164,6 +164,10 @@ function redo() {
 
 
 function click_two(x, db, type) {
+
+  desc.style.position = "";
+
+
   if (type == "villes") {
     name.innerHTML = db[x].gsx$nom.$t;
     if (db[x].gsx$description != "//" || db[x.gsx$description != ".."]) {
@@ -235,18 +239,14 @@ function click_two(x, db, type) {
     } else {
       pop.classList.add("none");
     }
-    var background = new Image();
-    if (db[x].gsx$image1.$t.startsWith("http")) {
-      background.src = db[x].gsx$image1.$t;
-      background.onload = function() {
-        document.getElementById("background").style.opacity = ".75";
-        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
-        loadGallery(x, db);
-      };
-      background.onerror = function() {
-        document.getElementById("background").style = "";
-        loadGallery(x, db);
+    if (db[x].gsx$image1.$t.startsWith("https")) {
+      if (db[x].gsx$image1.$t.startsWith("https://media.discordapp.net/attachments/")) {
+        document.getElementById("background").style.backgroundImage = "url(" + db[x].gsx$image1.$t + "?width=600&height=200)";
+      } else {
+        document.getElementById("background").style.backgroundImage = "url(" + db[x].gsx$image1.$t + ")";
       }
+      document.getElementById("background").style.opacity = ".75";
+      loadGallery(x, db);
     } else {
       document.getElementById("background").style = "";
       loadGallery(x, db);
@@ -282,23 +282,24 @@ function click_two(x, db, type) {
     }
     pop.classList.add("none");
     var background = new Image();
-    if (db[x].gsx$image1.$t.startsWith("http")) {
-      background.src = db[x].gsx$image1.$t;
-      background.onload = function() {
-        document.getElementById("background").style.opacity = ".75";
-        document.getElementById("background").style.backgroundImage = "url(" + this.src + ")";
-        loadGallery(x, db);
-      };
-      background.onerror = function() {
-        document.getElementById("background").style = "";
-        loadGallery(x, db);
+    if (db[x].gsx$image1.$t.startsWith("https")) {
+      if (db[x].gsx$image1.$t.startsWith("https://media.discordapp.net/attachments/")) {
+        document.getElementById("background").style.backgroundImage = "url(" + db[x].gsx$image1.$t + "?width=600&height=200)";
+      } else {
+        document.getElementById("background").style.backgroundImage = "url(" + db[x].gsx$image1.$t + ")";
       }
+      document.getElementById("background").style.opacity = ".75";
+      loadGallery(x, db);
     } else {
       document.getElementById("background").style = "";
       loadGallery(x, db);
     }
   } else if (type == "claims") {
-    //nothing here
+    name.innerHTML = db[x].gsx$nom.$t;
+    name.innerHTML = db[x].gsx$nom.$t;
+    desc.innerHTML = "Coordonnée: " + db[x].gsx$description.$t;
+    desc.classList.remove("none");
+    desc.style.position = "absolute";
   }
 }
 
@@ -320,7 +321,7 @@ function click(x) {
       }
       actual_selected = "";
       document.getElementById(x).classList.remove("selected");
-      name.innerHTML = "&#160"
+      // name.innerHTML = "&#160"
       desc.classList.add("none");
       fon.classList.add("none");
       ma.classList.add("none");
@@ -328,7 +329,7 @@ function click(x) {
       way.classList.add("none");
       pop.classList.add("none");
       document.getElementById("gallery_page").innerHTML = "";
-      document.getElementById("background").style = "";
+      // document.getElementById("background").style = "";
       return;
     }
     for (var div of warpoints.children) {
@@ -451,6 +452,11 @@ function updateSearch(db) {
   var value = document.getElementById("search").value.toLowerCase();
   for (var i = 0; i < db.length; i++) {
     if (db[i].gsx$nom.$t.toLowerCase().includes(value)) {
+      if (show_only) {
+        if (db[i].gsx$status.$t.toLowerCase() != "active" && db[i].gsx$status.$t.toLowerCase() != "actif") {
+          continue;
+        }
+      }
       var c = document.createElement("h3");
       c.innerHTML = db[i].gsx$nom.$t;
       c.id = i;
@@ -498,6 +504,8 @@ function loadPoint(db) {
       // point.style.transform =  "translateY(-50%)"
     }
 
+
+
     div.style.left = (Math.floor(db[i].gsx$overworldx.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     div.style.top = (Math.floor(db[i].gsx$overworldy.$t) + pmc_size) / (pmc_size * 2 / map_size) + "px";
     div.onclick = async function() {
@@ -520,8 +528,17 @@ function loadPoint(db) {
 }
 
 
+function newMap() {
+  darray = [];
+  dname = "";
+  load();
+}
+
+
 
 function idkhownameit(db, x) {
+  console.log(dname);
+  console.log(x);
   darray = [];
   if (dname.split("")[1] == x) {
     dname = "";
@@ -576,15 +593,25 @@ function idkhownameit(db, x) {
             darray.push(db[i].gsx$date.$t);
           }
         }
-        console.log(darray);
         var max = Math.max(...darray);
         darray = darray.map(x => Math.abs(x - max));
-        console.log(darray);
         darray = darray.map(x => x / (max - 2015));
-        console.log(darray);
 
 
         document.getElementById("h3").classList.add("check");
+        break;
+
+
+      case 4:
+        dname = "h4"
+        for (var i = 0; i < db.length; i++) {
+          darray.push(db[i].gsx$nom.$t.split(" bloc")[0]);
+        }
+        var max = Math.max(...darray);
+        darray = darray.map(x => x / max);
+
+
+        document.getElementById("h4").classList.add("check");
         break;
 
     }
@@ -620,6 +647,10 @@ function load(map_size) {
 
 
     case "villes":
+
+      name.innerHTML = "Les villes";
+      document.getElementById("background").style.backgroundImage = "url(./files/villesbg.jpg)";
+
       document.getElementById("insert_text").classList.add("none");
       loadPoint(villes_data);
 
@@ -657,6 +688,10 @@ function load(map_size) {
 
 
     case "shops":
+      name.innerHTML = "Les commerces";
+      document.getElementById("background").style.backgroundImage = "url(./files/shopsbg.jpg)";
+
+
       document.getElementById("insert_text").classList.add("none");
       loadPoint(shops_data);
 
@@ -682,16 +717,25 @@ function load(map_size) {
 
 
     case "claims":
+
+      name.innerHTML = "La claimslist";
+
+
+
       document.getElementById("insert_text").classList.remove("none");
       var claims_data_temp = document.getElementById("insert_text").value;
       claims_data_temp = claims_data_temp.split("\n");
       claims_data_temp = claims_data_temp.filter(function(a) {
         return a;
       });
+      claims_data = [];
       claims_data_temp.forEach((item, i) => {
         claims_data[i] = {
           gsx$nom: {
             $t: item.split("(-")[1].split(")")[0]
+          },
+          gsx$description: {
+            $t: "x: " + item.split("x")[1].split(",")[0] + " y: " + item.split("z")[1].split(" ")[0]
           },
           gsx$status: {
             $t: "active"
@@ -707,7 +751,27 @@ function load(map_size) {
       claims_data.sort(function(a, b) {
         return a.gsx$overworldy.$t - b.gsx$overworldy.$t;
       });
+      // console.log(claims_data_temp);
+      // console.log(claims_data);
       loadPoint(claims_data);
+      for (var i = 0; i < 5; i++) {
+        var h = document.createElement("h3");
+        h.id = "h" + i;
+        h.onclick = function() {
+          idkhownameit(claims_data, Math.floor(this.id.split("")[1]));
+        }
+        switch (i) {
+          case 4:
+            h.innerHTML = "Blocs";
+            break;
+        }
+        if (dname == h.id) {
+          h.classList.add("check");
+        }
+        if (h.innerHTML != "") {
+          document.getElementById("option_data").appendChild(h);
+        }
+      }
       break;
   }
 }

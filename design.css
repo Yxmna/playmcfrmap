@@ -340,16 +340,17 @@ element {}
 
 #insert_text {
   resize: none;
-  width: 80%;
-  margin-right: auto;
-  margin-left: auto;
+  width: 85%;
   display: block;
-  height: 90%;
+  height: 80%;
   background: #2D333A;
   color: white;
   border: none;
   padding: 10px;
   border-radius: 5px;
+  margin: 0 30px 15px 30px;
+  margin-top: 0px;
+  margin-top: 13%;
 }
 
 .name {

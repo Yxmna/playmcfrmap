@@ -63,13 +63,12 @@
       <div id="option_page" class="none">
         <h4>Carte</h4>
         <h3 id="maptype" onclick="mapType()">Carte simplifiée</h3>
-        <h3 id="showtag" onclick="showTag()" class="check">Toujours afficher les étiquettes</h3>
+        <h3 id="showtag" onclick="showTag()" class="check">Afficher les étiquettes</h3>
 
 
         <h4>Activité</h4>
         <h3 id="showcolor" onclick="showColor()" class="">Afficher les couleurs</h3>
         <h3 id="showonly" onclick="showOnly()" class="">Seulement les actifs/actives</h3>
-
 
 
 
@@ -110,7 +109,7 @@
         <div id="select_div">
 
 
-          <select id="db" onchange="load()">
+          <select id="db" onchange="newMap()">
             <option value="villes">Villes</option>
             <option value="shops">Commerces</option>
             <option value="claims">ClaimsList</option>
