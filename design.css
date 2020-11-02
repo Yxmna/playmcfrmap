@@ -96,7 +96,7 @@ element {}
   cursor: zoom-out;
 }
 
-#map, #map_lite {
+#map, #map_lite, #nether {
   height: 100%;
   user-select: none;
 }
@@ -109,6 +109,13 @@ element {}
 
 #map_lite {
   z-index: 2;
+}
+
+#nether {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
 }
 
 #warpoints {}

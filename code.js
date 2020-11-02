@@ -13,7 +13,7 @@ const way = document.getElementById("way");
 const pop = document.getElementById("pop");
 
 
-const version = "1.0"
+const version = "1.1";
 const map_img = new Image();
 const lite_map_img = new Image();
 const villes = "https://spreadsheets.google.com/feeds/list/1W1fNliviLAqHabVDkix4xUVq6S1E5wAwcCy8Dy8u65k/od6/public/values?alt=json";
@@ -25,6 +25,7 @@ var lite_map = false;
 var show_tag = true;
 var show_color = false;
 var show_only = false;
+var show_nether = false;
 var villes_data = new Object;
 var shops_data = new Object;
 var claims_data = [];
@@ -43,7 +44,7 @@ lite_map_img.src = "./files/map_s1.png";
 
 lite_map_img.onload = function() {
   map.src = lite_map_img.src;
-  map_img.src = "./files/map1.png";
+  map_img.src = "./files/map1.jpg";
   map_img.onload = function() {
     map.src = this.src;
   };
@@ -414,6 +415,20 @@ function showColor() {
   show_color = !show_color;
   load(map_size);
 }
+
+function showNether() {
+  if (!show_nether) {
+    document.getElementById("nether").classList.remove("none");
+      document.getElementById("shownether").classList.add("check");
+  } else {
+    document.getElementById("nether").classList.add("none");
+      document.getElementById("shownether").classList.remove("check");
+  }
+  show_nether = !show_nether;
+  load(map_size);
+}
+
+
 
 function zoom(noredo) {
   warpoints.innerHTML = "";
