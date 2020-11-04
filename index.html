@@ -12,12 +12,16 @@
 
   <div id="area">
     <!-- <img id="map_lite" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false"> -->
-    <img id="map" draggable="false" src="./files/map_ss1.png" onclick="zoom()" draggable="false">
+    <img id="map" draggable="false" onmousemove="coordinate(event)" src="./files/map_ss1.png" onclick="zoom()" draggable="false">
 
     <img id="nether" src="./files/nether1.png" class="none">
 
     <div id="warpoints">
 
+    </div>
+
+    <div id="coor">
+      x: 0 y:0
     </div>
 
   </div>
