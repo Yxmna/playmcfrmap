@@ -7,12 +7,12 @@
   <title>PMC MAP</title>
 </head>
 
-<body onresize="resize()" id="body">
+<body id="body" onload="start()">
 
 
   <div id="area">
     <!-- <img id="map_lite" draggable="false" src="./files/map_s1.png" onclick="zoom()" draggable="false"> -->
-    <img id="map" draggable="false" onmousemove="coordinate(event)" src="./files/map_ss1.png" onclick="zoom()" draggable="false">
+    <img id="map" draggable="false" onmousemove="showCoordinates(event)" src="./files/map_ss1.png" onclick="zoom()" draggable="false">
 
     <img id="nether" src="./files/nether1.png" class="none">
 
@@ -47,14 +47,33 @@
 
       <div id="info_page">
 
-        <h2 id="desc"></h2>
-        <h2 id="fon"></h2>
-        <h2 id="ma"></h2>
-        <h2 id="arch"></h2>
+        <h2 id="description"></h2>
+        <h2 id="comment"></h2>
+        <h2 id="foundation"></h2>
+        <h2 id="king"></h2>
+        <h2 id="detail"></h2>
         <h2 id="way"></h2>
-        <h2 id="pop"></h2>
+        <h2 id="number"></h2>
 
-        <textarea class="none" id="insert_text" placeholder="Insert ici le message du logs" onkeyup="load()"></textarea>
+        <div id="select_map">
+          <h2>Choix de la zone:</h2>
+          <div class="select_div">
+
+
+            <select id="maps" onchange="changeMap()">
+
+              <option value="oldgear">oldgear</option>
+              <option value="other">other</option>
+
+            </select>
+          </div>
+        </div>
+
+
+
+
+        <textarea class="none" id="insert_logs" placeholder="Insert ici le message du logs" onkeyup="setupDb()"></textarea>
+        <textarea class="none" id="insert_data" placeholder="Insert ici les données" onkeyup="setupDb()"></textarea>
 
       </div>
 
@@ -68,7 +87,7 @@
 
       <div id="option_page" class="none">
         <h4>Carte</h4>
-        <h3 id="maptype" onclick="mapType()">Carte simplifiée</h3>
+        <h3 id="maptype" onclick="changeMapType()">Carte simplifiée</h3>
         <h3 id="showtag" onclick="showTag()" class="check">Afficher les étiquettes</h3>
         <h3 id="shownether" onclick="showNether()">Afficher le nether</h3>
 
@@ -82,6 +101,11 @@
 
 
         <h4>Données</h4>
+        <h3 id="populationactuel" class="none" onclick="ChangeArray('populationactuel')">Population actuel</h3>
+        <h3 id="populationtotal" class="none" onclick="ChangeArray('populationtotal')">Population total</h3>
+        <h3 id="batiments" class="none" onclick="ChangeArray('batiments')">Batiments</h3>
+        <h3 id="datecreation" class="none" onclick="ChangeArray('datecreation')">Date de création</h3>
+        <h3 id="blocs" class="none" onclick="ChangeArray('blocs')">Blocs</h3>
 
 
         <div id="option_data">
@@ -113,13 +137,14 @@
 
         <h2>Carte: </h2>
 
-        <div id="select_div">
+        <div class="select_div">
 
 
-          <select id="db" onchange="newMap()">
+          <select id="db" onchange="setupDb()">
             <option value="villes">Villes</option>
             <option value="shops">Commerces</option>
             <option value="claims">ClaimsList</option>
+            <!-- <option value="claimsgestion">ClaimsManageur</option> -->
           </select>
 
         </div>
@@ -133,7 +158,7 @@
       </div>
 
       <div id="data_select">
-        <input type="search" placeholder="Recherche" onkeyup="startSearch()" id="search" onclick="showSearch()">
+        <input type="search" placeholder="Recherche" onkeyup="updateSearch()" id="search" onclick="showSearch()">
 
         <div id="data_list">
 
