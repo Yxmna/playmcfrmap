@@ -40,6 +40,10 @@ element {}
   font-weight: 400;
 }
 
+a {
+  color: #7289DA;
+}
+
 /* @keyframes waiting {
   0% {
     box-shadow: 0 0 0px 0px rgba(255, 255, 255, .125);
@@ -325,7 +329,11 @@ element {}
 }
 
 #select h3:hover, #close:hover {
-  filter: brightness(125%);
+  filter: brightness(120%);
+}
+
+#select h3.selected {
+  filter: brightness(150%);
 }
 
 #select input {
