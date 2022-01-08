@@ -6,7 +6,7 @@ const warpoints = document.getElementById("warpoints");
 
 
 
-const version = "1.4";
+const version = "1.5";
 const map_img = new Image();
 const lite_map_img = new Image();
 const image_bg = new Image();
@@ -19,7 +19,7 @@ const fetch_option = {
   }
 }
 
-var map_size = 6144;
+var map_size = 7166;
 var x_off = 0;
 var y_off = 0;
 var darray = [];
@@ -32,7 +32,7 @@ var show_nether = false;
 var villes_data = new Object;
 var shops_data = new Object;
 var claims_data = [];
-var pmc_size = 6144;
+var pmc_size = 7166;
 var db = [];
 var offset = "";
 const maps = {
@@ -108,7 +108,7 @@ function getData(url, offset) {
 
 function setupDb() {
   console.log("> setupDb");
-  map_size = 6144;
+  map_size = 7166;
   const datecreation = document.getElementById("datecreation");
   const populationactuel = document.getElementById("populationactuel");
   const populationtotal = document.getElementById("populationtotal");
